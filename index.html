@@ -1,72 +1,1091 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Said Online Shop</title>
 
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: #f2f4f7;
+            background: #f5f6fa;
+            color: #222;
         }
 
+        /* HEADER */
         header {
-            background: linear-gradient(135deg, #111, #333);
+            background: linear-gradient(135deg, #111827, #2563eb);
+            color: white;
+            padding: 20px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .cart-top {
+            background: white;
+            color: #111827;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            text-align: center;
+            padding: 55px 20px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 13px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+
+        /* SEARCH */
+        .search-area {
+            max-width: 700px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* PRODUCTS */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 15px 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin: 25px 0;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 75px;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-info h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .product-info p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 21px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 9px;
+            background: #111827;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #2563eb;
+        }
+
+        /* CART */
+        .cart-section {
+            max-width: 700px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .cart-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quantity button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .remove-btn {
+            background: #dc2626 !important;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 23px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #16a34a;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* ORDER */
+        .order-section {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .order-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-section input,
+        .order-section textarea {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .order-section textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #25d366;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111827;
             color: white;
             text-align: center;
             padding: 30px 15px;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 30px;
+        footer p {
+            margin: 7px;
+            color: #ddd;
         }
 
-        header p {
-            margin-bottom: 0;
+        /* MOBILE */
+        @media (max-width: 900px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        .search {
-            text-align: center;
-            padding: 20px;
+        @media (max-width: 600px) {
+
+            .header-content {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 220px;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-content">
+
+        <div class="logo">
+            🛍️ Said Online Shop
+        </div>
+
+        <button class="cart-top" onclick="scrollToCart()">
+            🛒 Cart (<span id="cartCount">0</span>)
+        </button>
+
+    </div>
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <h1>Welcome to Said Online Shop</h1>
+
+    <p>
+        আপনার পছন্দের পণ্য এখন সহজেই অনলাইনে অর্ডার করুন
+    </p>
+
+    <a href="#products" class="hero-btn">
+        🛍️ Shop Now
+    </a>
+
+</section>
+
+
+<!-- SEARCH -->
+<div class="search-area">
+
+    <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="🔎 পণ্য খুঁজুন..."
+        onkeyup="searchProducts()"
+    >
+
+</div>
+
+
+<!-- PRODUCTS -->
+<div class="container" id="products">
+
+    <h2 class="section-title">
+        🛒 Our Products
+    </h2>
+
+    <div class="products" id="productList">
+
+
+        <!-- PRODUCT 1 -->
+        <div class="product" data-name="Smart Watch">
+
+            <div class="product-image">
+                ⌚
+            </div>
+
+            <div class="product-info">
+
+                <h3>Smart Watch</h3>
+
+                <p>
+                    Stylish smart watch for everyday use.
+                </p>
+
+                <div class="price">
+                    ৳1,500
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Smart Watch', 1500)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 2 -->
+        <div class="product" data-name="Headphone">
+
+            <div class="product-image">
+                🎧
+            </div>
+
+            <div class="product-info">
+
+                <h3>Wireless Headphone</h3>
+
+                <p>
+                    High quality wireless headphone.
+                </p>
+
+                <div class="price">
+                    ৳1,200
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Wireless Headphone', 1200)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 3 -->
+        <div class="product" data-name="T Shirt">
+
+            <div class="product-image">
+                👕
+            </div>
+
+            <div class="product-info">
+
+                <h3>Premium T-Shirt</h3>
+
+                <p>
+                    Comfortable premium quality T-shirt.
+                </p>
+
+                <div class="price">
+                    ৳650
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Premium T-Shirt', 650)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 4 -->
+        <div class="product" data-name="Shoes">
+
+            <div class="product-image">
+                👟
+            </div>
+
+            <div class="product-info">
+
+                <h3>Running Shoes</h3>
+
+                <p>
+                    Lightweight and comfortable shoes.
+                </p>
+
+                <div class="price">
+                    ৳1,800
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Running Shoes', 1800)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 5 -->
+        <div class="product" data-name="Bag">
+
+            <div class="product-image">
+                🎒
+            </div>
+
+            <div class="product-info">
+
+                <h3>Travel Bag</h3>
+
+                <p>
+                    Strong and stylish travel bag.
+                </p>
+
+                <div class="price">
+                    ৳1,000
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Travel Bag', 1000)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 6 -->
+        <div class="product" data-name="Sunglasses">
+
+            <div class="product-image">
+                🕶️
+            </div>
+
+            <div class="product-info">
+
+                <h3>Sunglasses</h3>
+
+                <p>
+                    Stylish sunglasses for outdoor use.
+                </p>
+
+                <div class="price">
+                    ৳750
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Sunglasses', 750)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 7 -->
+        <div class="product" data-name="Phone">
+
+            <div class="product-image">
+                📱
+            </div>
+
+            <div class="product-info">
+
+                <h3>Smart Phone</h3>
+
+                <p>
+                    Modern smartphone with great features.
+                </p>
+
+                <div class="price">
+                    ৳15,000
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Smart Phone', 15000)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 8 -->
+        <div class="product" data-name="Power Bank">
+
+            <div class="product-image">
+                🔋
+            </div>
+
+            <div class="product-info">
+
+                <h3>Power Bank</h3>
+
+                <p>
+                    Fast charging portable power bank.
+                </p>
+
+                <div class="price">
+                    ৳900
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('Power Bank', 900)"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CART -->
+<div class="cart-section" id="cartSection">
+
+    <h2>🛒 Shopping Cart</h2>
+
+    <div id="cartItems">
+        <p>Your cart is empty.</p>
+    </div>
+
+    <div class="cart-total">
+        Total: ৳<span id="cartTotal">0</span>
+    </div>
+
+    <button
+        class="checkout-btn"
+        onclick="goToOrder()"
+    >
+        ✅ Proceed to Order
+    </button>
+
+</div>
+
+
+<!-- ORDER FORM -->
+<div class="order-section" id="orderSection">
+
+    <h2>📦 Order Information</h2>
+
+    <input
+        type="text"
+        id="customerName"
+        placeholder="আপনার নাম"
+    >
+
+    <input
+        type="tel"
+        id="customerPhone"
+        placeholder="মোবাইল নম্বর"
+    >
+
+    <textarea
+        id="customerAddress"
+        placeholder="আপনার সম্পূর্ণ ঠিকানা"
+    ></textarea>
+
+    <button
+        class="order-btn"
+        onclick="placeOrder()"
+    >
+        📱 Order Now
+    </button>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <h3>🛍️ Said Online Shop</h3>
+
+    <p>
+        আপনার বিশ্বস্ত অনলাইন শপ
+    </p>
+
+    <p>
+        © 2026 Said Online Shop. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<script>
+
+    let cart = [];
+
+
+    // ADD TO CART
+    function addToCart(name, price) {
+
+        let existing = cart.find(item => item.name === name);
+
+        if (existing) {
+
+            existing.quantity++;
+
+        } else {
+
+            cart.push({
+                name: name,
+                price: price,
+                quantity: 1
+            });
+
         }
 
-        .search input {
-            width: 90%;
-            max-width: 500px;
-            padding: 14px;
-            border: none;
-            border-radius: 25px;
-            box-shadow: 0 2px 10px #ccc;
-            font-size: 16px;
+        updateCart();
+
+        alert("✅ " + name + " cart-এ যোগ হয়েছে!");
+
+    }
+
+
+    // UPDATE CART
+    function updateCart() {
+
+        const cartItems = document.getElementById("cartItems");
+
+        const cartCount = document.getElementById("cartCount");
+
+        const cartTotal = document.getElementById("cartTotal");
+
+
+        if (cart.length === 0) {
+
+            cartItems.innerHTML = "<p>Your cart is empty.</p>";
+
+            cartCount.innerText = "0";
+
+            cartTotal.innerText = "0";
+
+            return;
+
         }
 
-        .cart-bar {
-            background: white;
-            margin: 0 15px 20px;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: right;
-            box-shadow: 0 2px 8px #ddd;
+
+        let html = "";
+
+        let total = 0;
+
+        let count = 0;
+
+
+        cart.forEach((item, index) => {
+
+            let itemTotal = item.price * item.quantity;
+
+            total += itemTotal;
+
+            count += item.quantity;
+
+
+            html += `
+
+                <div class="cart-item">
+
+                    <div class="cart-item-info">
+
+                        <strong>${item.name}</strong>
+
+                        ৳${item.price} × ${item.quantity}
+
+                    </div>
+
+
+                    <div class="quantity">
+
+                        <button onclick="decrease(${index})">
+                            -
+                        </button>
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+                        <button onclick="increase(${index})">
+                            +
+                        </button>
+
+                        <button
+                            class="remove-btn"
+                            onclick="removeItem(${index})"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        cartItems.innerHTML = html;
+
+        cartCount.innerText = count;
+
+        cartTotal.innerText = total;
+
+    }
+
+
+    // INCREASE
+    function increase(index) {
+
+        cart[index].quantity++;
+
+        updateCart();
+
+    }
+
+
+    // DECREASE
+    function decrease(index) {
+
+        cart[index].quantity--;
+
+        if (cart[index].quantity <= 0) {
+
+            cart.splice(index, 1);
+
         }
 
-        .cart-button {
-            background: #111;
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            margin-top: 8px;
+        updateCart();
+
+    }
+
+
+    // REMOVE
+    function removeItem(index) {
+
+        cart.splice(index, 1);
+
+        updateCart();
+
+    }
+
+
+    // SCROLL TO CART
+    function scrollToCart() {
+
+        document
+            .getElementById("cartSection")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    // GO TO ORDER
+    function goToOrder() {
+
+        if (cart.length === 0) {
+
+            alert("⚠️ আগে cart-এ product যোগ করুন!");
+
+            return;
+
         }
 
-        .products {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            padding: 10px;
-       
+        document
+            .getElementById("orderSection")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    // SEARCH
+    function searchProducts() {
+
+        let search =
+            document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+
+        let products =
+            document.querySelectorAll(".product");
+
+
+        products.forEach(product => {
+
+            let name =
+                product
+                .getAttribute("data-name")
+                .toLowerCase();
+
+
+            if (name.includes(search)) {
+
+                product.style.display = "";
+
+            } else {
+
+                product.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    // PLACE ORDER
+    function placeOrder() {
+
+        if (cart.length === 0) {
+
+            alert("⚠️ আপনার cart খালি!");
+
+            return;
+
+        }
+
+
+        let name =
+            document
+            .getElementById("customerName")
+            .value
+            .trim();
+
+
+        let phone =
+            document
+            .getElementById("customerPhone")
+            .value
+            .trim();
+
+
+        let address =
+            document
+            .getElementById("customerAddress")
+            .value
+            .trim();
+
+
+        if (!name || !phone || !address) {
+
+            alert("⚠️ দয়া করে আপনার নাম, মোবাইল নম্বর এবং ঠিকানা দিন।");
+
+            return;
+
+        }
+
+
+        let message =
+            "🛍️ Said Online Shop Order%0A%0A";
+
+
+        message +=
+            "👤 Name: " +
+            encodeURIComponent(name) +
+            "%0A";
+
+
+        message +=
+            "📱 Phone: " +
+            encodeURIComponent(phone) +
+            "%0A";
+
+
+        message +=
+            "📍 Address: " +
+            encodeURIComponent(address) +
+            "%0A%0A";
+
+
+        message += "🛒 Products:%0A";
+
+
+        let total = 0;
+
+
+        cart.forEach(item => {
+
+            let itemTotal =
+                item.price * item.quantity;
+
+
+            total += itemTotal;
+
+
+            message +=
+                encodeURIComponent(
+                    item.name +
+                    " × " +
+                    item.quantity +
+                    " = ৳" +
+                    itemTotal
+                ) +
+                "%0A";
+
+        });
+
+
+        message +=
+            "%0A💰 Total: ৳" +
+            total;
+
+
+        /*
+         * IMPORTANT:
+         * এখানে আপনার WhatsApp নম্বর বসাবেন।
+         *
+         * Example:
+         * 8801712345678
+         *
+         * + চিহ্ন বা space দেবেন না।
+         */
+
+        let whatsappNumber = "8801XXXXXXXXX";
+
+
+        if (whatsappNumber === "8801XXXXXXXXX") {
+
+            alert(
+                "⚠️ WhatsApp order চালু করতে কোডের ভিতরে আপনার WhatsApp নম্বর বসাতে হবে।"
+            );
+
+            return;
+
+        }
+
+
+        let url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            message;
+
+
+        window.open(url, "_blank");
+
+    }
+
+
+    // INITIAL CART
+    updateCart();
+
+</script>
+
+</body>
+</html>
