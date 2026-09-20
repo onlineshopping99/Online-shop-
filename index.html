@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>My Online Shop</title>
 
 <style>
@@ -22,27 +21,26 @@ body{
 header{
   background:#111827;
   color:white;
-  padding:14px 5%;
+  padding:14px 4%;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
   position:sticky;
   top:0;
   z-index:100;
 }
 
 .logo{
-  font-size:22px;
+  font-size:21px;
   font-weight:bold;
 }
 
 nav button{
   border:0;
-  padding:9px 12px;
+  padding:9px 11px;
   border-radius:6px;
+  margin-left:3px;
   cursor:pointer;
-  margin-left:4px;
 }
 
 .shopBtn{
@@ -61,28 +59,24 @@ nav button{
 }
 
 .hero{
-  padding:45px 20px;
   background:linear-gradient(135deg,#2563eb,#7c3aed);
   color:white;
   text-align:center;
+  padding:45px 15px;
 }
 
 .hero h1{
-  font-size:36px;
+  font-size:35px;
   margin-bottom:10px;
 }
 
-.hero p{
-  font-size:17px;
-}
-
-.searchBox{
+.search{
   max-width:600px;
   margin:25px auto;
   padding:0 15px;
 }
 
-.searchBox input{
+.search input{
   width:100%;
   padding:14px;
   border:1px solid #ddd;
@@ -120,13 +114,13 @@ nav button{
 }
 
 .card h3{
-  margin-bottom:8px;
+  margin-bottom:7px;
 }
 
-.description{
-  color:#666;
+.desc{
   font-size:14px;
-  min-height:40px;
+  color:#666;
+  min-height:38px;
 }
 
 .price{
@@ -134,6 +128,12 @@ nav button{
   font-weight:bold;
   color:#16a34a;
   margin:10px 0;
+}
+
+.stock{
+  font-size:13px;
+  color:#555;
+  margin-bottom:5px;
 }
 
 .card select{
@@ -155,48 +155,21 @@ nav button{
   cursor:pointer;
 }
 
-.card button:hover{
-  background:#1d4ed8;
+.card button:disabled{
+  background:#aaa;
+  cursor:not-allowed;
 }
 
 .section{
   background:white;
   padding:20px;
   border-radius:10px;
-  margin:20px 0;
+  margin-bottom:20px;
   box-shadow:0 2px 8px #0001;
 }
 
 .hidden{
   display:none!important;
-}
-
-.cartItem{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #ddd;
-  padding:15px 0;
-  gap:15px;
-}
-
-.qty{
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-
-.qty button{
-  padding:6px 10px;
-  border:0;
-  background:#ddd;
-  cursor:pointer;
-  border-radius:4px;
-}
-
-.remove{
-  background:#ef4444!important;
-  color:white!important;
 }
 
 .form input,
@@ -210,8 +183,7 @@ nav button{
 }
 
 .form textarea{
-  min-height:100px;
-  resize:vertical;
+  min-height:90px;
 }
 
 .primary{
@@ -224,7 +196,7 @@ nav button{
   margin-top:10px;
 }
 
-.secondary{
+.gray{
   background:#6b7280;
   color:white;
   border:0;
@@ -234,12 +206,67 @@ nav button{
   margin-top:10px;
 }
 
+.fileBox{
+  border:2px dashed #aaa;
+  padding:20px;
+  text-align:center;
+  border-radius:8px;
+  margin-top:10px;
+  background:#fafafa;
+}
+
+.preview{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-top:10px;
+  display:none;
+}
+
+.cartItem{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #ddd;
+  padding:14px 0;
+  gap:15px;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.qty button{
+  border:0;
+  padding:6px 10px;
+  background:#ddd;
+  border-radius:4px;
+}
+
+.remove{
+  background:#ef4444!important;
+  color:white!important;
+}
+
 .adminProduct{
   border:1px solid #ddd;
   padding:14px;
   border-radius:8px;
   margin:10px 0;
   background:#fafafa;
+  overflow:hidden;
+}
+
+.adminProduct img{
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  border-radius:7px;
+  float:left;
+  margin-right:12px;
 }
 
 .edit{
@@ -270,9 +297,16 @@ nav button{
 }
 
 .order hr{
-  margin:12px 0;
   border:0;
   border-top:1px solid #ddd;
+  margin:12px 0;
+}
+
+.status{
+  padding:8px;
+  border-radius:6px;
+  border:1px solid #ddd;
+  margin-top:8px;
 }
 
 .modal{
@@ -288,19 +322,15 @@ nav button{
 .modalBox{
   background:white;
   width:90%;
-  max-width:420px;
+  max-width:400px;
   padding:25px;
   border-radius:10px;
-}
-
-.modalBox h2{
-  margin-bottom:10px;
 }
 
 .modalBox input{
   width:100%;
   padding:12px;
-  margin:10px 0;
+  margin:12px 0;
   border:1px solid #ddd;
   border-radius:6px;
 }
@@ -310,13 +340,12 @@ nav button{
   border:0;
   border-radius:6px;
   cursor:pointer;
-  margin-right:5px;
 }
 
 footer{
-  text-align:center;
   background:#111827;
   color:white;
+  text-align:center;
   padding:25px;
   margin-top:30px;
 }
@@ -324,7 +353,7 @@ footer{
 @media(max-width:600px){
 
   header{
-    padding:12px 3%;
+    padding:11px 3%;
   }
 
   .logo{
@@ -337,11 +366,7 @@ footer{
   }
 
   .hero h1{
-    font-size:28px;
-  }
-
-  .hero p{
-    font-size:14px;
+    font-size:27px;
   }
 
   .card img{
@@ -352,17 +377,11 @@ footer{
     flex-direction:column;
     align-items:flex-start;
   }
-
-  .qty{
-    width:100%;
-  }
 }
 </style>
 </head>
 
 <body>
-
-<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -389,29 +408,22 @@ Admin
 </header>
 
 
-<!-- ================= HERO ================= -->
-
 <section class="hero">
 
-<h1>
-Welcome To My Online Shop
-</h1>
+<h1>Welcome To My Online Shop</h1>
 
-<p>
-Quality Products • Easy Ordering • Fast Delivery
-</p>
+<p>Quality Products • Easy Ordering • Fast Delivery</p>
 
 </section>
 
 
-<!-- ================= SHOP PAGE ================= -->
+<!-- SHOP -->
 
 <div id="shopPage">
 
-<div class="searchBox">
+<div class="search">
 
 <input
-type="text"
 id="search"
 placeholder="🔎 Search products..."
 oninput="renderProducts()"
@@ -428,7 +440,7 @@ oninput="renderProducts()"
 </div>
 
 
-<!-- ================= CART PAGE ================= -->
+<!-- CART -->
 
 <div id="cartPage" class="container hidden">
 
@@ -438,7 +450,7 @@ oninput="renderProducts()"
 
 <div id="cartItems"></div>
 
-<h3 style="margin-top:20px;">
+<h3 style="margin-top:20px">
 Total: ৳<span id="cartTotal">0</span>
 </h3>
 
@@ -459,7 +471,6 @@ placeholder="Your Name"
 <input
 id="customerPhone"
 placeholder="Phone Number"
-type="tel"
 >
 
 <textarea
@@ -478,7 +489,7 @@ Place Order
 </div>
 
 
-<!-- ================= ADMIN PAGE ================= -->
+<!-- ADMIN -->
 
 <div id="adminPage" class="container hidden">
 
@@ -486,14 +497,11 @@ Place Order
 
 <h2>👨‍💼 Admin Panel</h2>
 
-<p style="margin-top:8px;">
-Manage your products and customer orders.
+<p style="margin-top:7px">
+এখান থেকে নতুন product যোগ করতে পারবে।
 </p>
 
-<button
-class="primary"
-onclick="logoutAdmin()"
->
+<button class="primary" onclick="logoutAdmin()">
 Logout
 </button>
 
@@ -516,40 +524,59 @@ placeholder="Product Name"
 <input
 id="productPrice"
 type="number"
-placeholder="Price in Taka"
+placeholder="💰 Price in Taka"
 >
 
 <input
-id="productImage"
-placeholder="Image URL"
+id="productStock"
+type="number"
+placeholder="📦 Stock Quantity"
 >
+
+<div class="fileBox">
+
+<strong>📷 Product Picture</strong>
+
+<p style="font-size:13px;margin-top:5px">
+Phone Gallery থেকে ছবি select করো
+</p>
+
+<input
+type="file"
+id="productImage"
+accept="image/*"
+onchange="previewImage(event)"
+>
+
+<br>
+
+<img
+id="imagePreview"
+class="preview"
+>
+
+</div>
 
 <input
 id="productSizes"
 placeholder="Sizes: S,M,L,XL"
->
+/>
 
 <input
 id="productColors"
 placeholder="Colors: Black,White,Red"
->
+/>
 
 <textarea
 id="productDescription"
 placeholder="Product Description"
 ></textarea>
 
-<button
-class="primary"
-onclick="saveProduct()"
->
-Save Product
+<button class="primary" onclick="saveProduct()">
+💾 Save Product
 </button>
 
-<button
-class="secondary"
-onclick="clearForm()"
->
+<button class="gray" onclick="clearForm()">
 Clear
 </button>
 
@@ -558,11 +585,15 @@ Clear
 </div>
 
 
-<!-- PRODUCTS -->
+<!-- PRODUCT LIST -->
 
 <div class="section">
 
-<h2>📦 Products</h2>
+<h2>📦 Product List</h2>
+
+<p style="margin:8px 0;color:#666">
+নতুন product যোগ করলে এই list automatically বড় হবে।
+</p>
 
 <div id="adminProducts"></div>
 
@@ -582,7 +613,7 @@ Clear
 </div>
 
 
-<!-- ================= LOGIN MODAL ================= -->
+<!-- LOGIN -->
 
 <div class="modal" id="loginModal">
 
@@ -590,15 +621,11 @@ Clear
 
 <h2>🔐 Admin Login</h2>
 
-<p>
-Enter admin password
-</p>
-
 <input
 id="adminPassword"
 type="password"
 placeholder="Admin Password"
-onkeydown="if(event.key==='Enter') loginAdmin()"
+onkeydown="if(event.key==='Enter')loginAdmin()"
 >
 
 <button
@@ -608,9 +635,7 @@ onclick="loginAdmin()"
 Login
 </button>
 
-<button
-onclick="closeLogin()"
->
+<button onclick="closeLogin()">
 Cancel
 </button>
 
@@ -619,69 +644,70 @@ Cancel
 </div>
 
 
-<!-- ================= FOOTER ================= -->
-
 <footer>
 
-<p>
-© 2026 My Online Shop. All Rights Reserved.
-</p>
+© 2026 My Online Shop
 
 </footer>
 
 
 <script>
 
-/* =====================================================
-   DEFAULT PRODUCTS
-===================================================== */
+/* =========================
+DEFAULT PRODUCTS
+========================= */
 
-const defaultProducts = [
+const defaultProducts=[
 
 {
 id:1,
 name:"Smart Watch",
 price:1500,
+stock:20,
 image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
 sizes:["Free Size"],
 colors:["Black","Silver"],
-description:"Modern smart watch for everyday use."
+description:"Modern smart watch."
 },
 
 {
 id:2,
 name:"Wireless Headphone",
 price:1200,
+stock:15,
 image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
 sizes:["Free Size"],
 colors:["Black","White"],
-description:"Comfortable wireless headphone with clear sound."
+description:"Wireless headphone."
 },
 
 {
 id:3,
 name:"Running Shoes",
 price:2200,
+stock:10,
 image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
 sizes:["39","40","41","42","43"],
 colors:["Black","White","Red"],
-description:"Comfortable running shoes for daily use."
+description:"Comfortable running shoes."
 },
 
 {
 id:4,
 name:"Backpack",
 price:1000,
+stock:20,
 image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800",
 sizes:["Free Size"],
 colors:["Black","Blue"],
-description:"Stylish backpack for school, office and travel."
+description:"Stylish backpack."
 },
 
 {
 id:5,
 name:"Sunglasses",
 price:800,
+stock:25,
 image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800",
 sizes:["Free Size"],
 colors:["Black","Brown"],
@@ -692,45 +718,23 @@ description:"Fashionable sunglasses."
 id:6,
 name:"Premium T-Shirt",
 price:650,
+stock:30,
 image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
 sizes:["S","M","L","XL"],
 colors:["Black","White","Blue"],
-description:"Premium comfortable cotton T-shirt."
-},
-
-{
-id:7,
-name:"Black T-Shirt",
-price:550,
-image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800",
-sizes:["S","M","L","XL"],
-colors:["Black"],
-description:"Classic black T-shirt."
-},
-
-{
-id:8,
-name:"White T-Shirt",
-price:550,
-image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
-sizes:["S","M","L","XL"],
-colors:["White"],
-description:"Classic white T-shirt."
+description:"Premium cotton T-shirt."
 }
 
 ];
 
 
-/* =====================================================
-   LOAD DATA
-===================================================== */
-
 let products =
 JSON.parse(localStorage.getItem("products"));
 
+
 if(!products){
 
-products = defaultProducts;
+products=defaultProducts;
 
 localStorage.setItem(
 "products",
@@ -744,12 +748,14 @@ let cart =
 JSON.parse(localStorage.getItem("cart")) || [];
 
 
-let editingId = null;
+let editingId=null;
+
+let selectedImage="";
 
 
-/* =====================================================
-   SHOP
-===================================================== */
+/* =========================
+SHOP
+========================= */
 
 function showShop(){
 
@@ -767,17 +773,14 @@ document
 
 renderProducts();
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+window.scrollTo(0,0);
 
 }
 
 
-/* =====================================================
-   RENDER PRODUCTS
-===================================================== */
+/* =========================
+PRODUCT DISPLAY
+========================= */
 
 function renderProducts(){
 
@@ -785,17 +788,16 @@ const box =
 document.getElementById("products");
 
 const search =
-document
-.getElementById("search")
+document.getElementById("search")
 .value
 .toLowerCase()
 .trim();
 
 
 const filtered =
-products.filter(function(product){
+products.filter(function(p){
 
-return product.name
+return p.name
 .toLowerCase()
 .includes(search);
 
@@ -807,26 +809,23 @@ box.innerHTML="";
 
 if(filtered.length===0){
 
-box.innerHTML=
-"<p>No products found.</p>";
+box.innerHTML="<p>No products found.</p>";
 
 return;
 
 }
 
 
-filtered.forEach(function(product){
+filtered.forEach(function(p){
 
 const sizes =
-product.sizes && product.sizes.length
-? product.sizes
-: ["Free Size"];
-
+p.sizes || ["Free Size"];
 
 const colors =
-product.colors && product.colors.length
-? product.colors
-: ["Default"];
+p.colors || ["Default"];
+
+const stock =
+Number(p.stock || 0);
 
 
 box.innerHTML += `
@@ -834,50 +833,53 @@ box.innerHTML += `
 <div class="card">
 
 <img
-src="${product.image}"
-alt="${product.name}"
-onerror="this.src='https://via.placeholder.com/500x400?text=Product+Image'"
+src="${p.image}"
+alt="${p.name}"
+onerror="this.src='https://via.placeholder.com/500x400?text=Product'"
 >
 
 <div class="cardBody">
 
-<h3>
-${product.name}
-</h3>
+<h3>${p.name}</h3>
 
-<p class="description">
-${product.description || ""}
+<p class="desc">
+${p.description || ""}
 </p>
 
 <div class="price">
-৳${Number(product.price).toLocaleString()}
+৳${Number(p.price).toLocaleString()}
 </div>
 
-<select id="size-${product.id}">
+<div class="stock">
+📦 Stock: ${stock}
+</div>
 
-${sizes.map(function(size){
+<select id="size-${p.id}">
 
-return `<option>${size}</option>`;
+${sizes.map(function(s){
 
-}).join("")}
-
-</select>
-
-
-<select id="color-${product.id}">
-
-${colors.map(function(color){
-
-return `<option>${color}</option>`;
+return `<option>${s}</option>`;
 
 }).join("")}
 
 </select>
 
+<select id="color-${p.id}">
 
-<button onclick="addToCart(${product.id})">
+${colors.map(function(c){
 
-🛒 Add To Cart
+return `<option>${c}</option>`;
+
+}).join("")}
+
+</select>
+
+<button
+onclick="addToCart(${p.id})"
+${stock<=0 ? "disabled" : ""}
+>
+
+${stock<=0 ? "Out of Stock" : "🛒 Add To Cart"}
 
 </button>
 
@@ -892,23 +894,21 @@ return `<option>${color}</option>`;
 }
 
 
-/* =====================================================
-   ADD TO CART
-===================================================== */
+/* =========================
+ADD TO CART
+========================= */
 
 function addToCart(id){
 
 const product =
-products.find(function(item){
+products.find(p=>p.id===id);
 
-return item.id===id;
-
-});
+if(!product)return;
 
 
-if(!product){
+if(Number(product.stock)<=0){
 
-alert("Product not found.");
+alert("Out of stock.");
 
 return;
 
@@ -916,15 +916,15 @@ return;
 
 
 const size =
-document.getElementById(
-"size-"+id
-).value;
+document
+.getElementById("size-"+id)
+.value;
 
 
 const color =
-document.getElementById(
-"color-"+id
-).value;
+document
+.getElementById("color-"+id)
+.value;
 
 
 const existing =
@@ -938,6 +938,14 @@ item.color===color;
 
 
 if(existing){
+
+if(existing.qty >= Number(product.stock)){
+
+alert("Stock limit reached.");
+
+return;
+
+}
 
 existing.qty++;
 
@@ -966,13 +974,12 @@ saveCart();
 
 alert("Product added to cart!");
 
-
 }
 
 
-/* =====================================================
-   SAVE CART
-===================================================== */
+/* =========================
+CART
+========================= */
 
 function saveCart(){
 
@@ -986,32 +993,22 @@ updateCartCount();
 }
 
 
-/* =====================================================
-   CART COUNT
-===================================================== */
-
 function updateCartCount(){
 
 let count=0;
 
-
 cart.forEach(function(item){
 
-count += Number(item.qty);
+count+=Number(item.qty);
 
 });
 
-
-document.getElementById(
-"cartCount"
-).innerText=count;
+document
+.getElementById("cartCount")
+.innerText=count;
 
 }
 
-
-/* =====================================================
-   SHOW CART
-===================================================== */
 
 function showCart(){
 
@@ -1029,38 +1026,28 @@ document
 
 renderCart();
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+window.scrollTo(0,0);
 
 }
 
-
-/* =====================================================
-   RENDER CART
-===================================================== */
 
 function renderCart(){
 
 const box =
 document.getElementById("cartItems");
 
-
 box.innerHTML="";
-
 
 let total=0;
 
 
 if(cart.length===0){
 
-box.innerHTML=
-"<p>Your cart is empty.</p>";
+box.innerHTML="<p>Your cart is empty.</p>";
 
-document.getElementById(
-"cartTotal"
-).innerText="0";
+document
+.getElementById("cartTotal")
+.innerText="0";
 
 return;
 
@@ -1069,12 +1056,9 @@ return;
 
 cart.forEach(function(item,index){
 
-const itemTotal =
+total +=
 Number(item.price) *
 Number(item.qty);
-
-
-total += itemTotal;
 
 
 box.innerHTML += `
@@ -1083,16 +1067,12 @@ box.innerHTML += `
 
 <div>
 
-<strong>
-${item.name}
-</strong>
+<strong>${item.name}</strong>
 
 <br>
-
 Size: ${item.size}
 
 <br>
-
 Color: ${item.color}
 
 <br>
@@ -1102,22 +1082,15 @@ Color: ${item.color}
 
 </div>
 
-
 <div class="qty">
 
-<button
-onclick="changeQty(${index},-1)"
->
+<button onclick="changeQty(${index},-1)">
 −
 </button>
 
-<strong>
-${item.qty}
-</strong>
+<strong>${item.qty}</strong>
 
-<button
-onclick="changeQty(${index},1)"
->
+<button onclick="changeQty(${index},1)">
 +
 </button>
 
@@ -1137,25 +1110,37 @@ Remove
 });
 
 
-document.getElementById(
-"cartTotal"
-).innerText =
+document
+.getElementById("cartTotal")
+.innerText =
 total.toLocaleString();
 
 }
 
 
-/* =====================================================
-   CHANGE QUANTITY
-===================================================== */
-
 function changeQty(index,value){
 
-cart[index].qty =
-Number(cart[index].qty)+value;
+const item=cart[index];
+
+const product =
+products.find(p=>p.id===item.id);
 
 
-if(cart[index].qty<=0){
+item.qty += value;
+
+
+if(product &&
+item.qty > Number(product.stock)){
+
+item.qty =
+Number(product.stock);
+
+alert("Maximum available stock reached.");
+
+}
+
+
+if(item.qty<=0){
 
 cart.splice(index,1);
 
@@ -1168,10 +1153,6 @@ renderCart();
 
 }
 
-
-/* =====================================================
-   REMOVE CART ITEM
-===================================================== */
 
 function removeCart(index){
 
@@ -1184,9 +1165,9 @@ renderCart();
 }
 
 
-/* =====================================================
-   PLACE ORDER
-===================================================== */
+/* =========================
+ORDER
+========================= */
 
 function placeOrder(){
 
@@ -1223,7 +1204,7 @@ document
 if(!name || !phone || !address){
 
 alert(
-"Please fill in Name, Phone and Address."
+"Please fill Name, Phone and Address."
 );
 
 return;
@@ -1234,22 +1215,43 @@ return;
 let total=0;
 
 
-cart.forEach(function(item){
+for(const item of cart){
+
+const product =
+products.find(p=>p.id===item.id);
+
+if(!product){
+
+alert(
+"Some product is no longer available."
+);
+
+return;
+
+}
+
+if(Number(product.stock) < Number(item.qty)){
+
+alert(
+"Not enough stock for: "+product.name
+);
+
+return;
+
+}
 
 total +=
 Number(item.price) *
 Number(item.qty);
 
-});
+}
 
 
 const order={
 
-id:
-"ORD-"+Date.now(),
+id:"ORD-"+Date.now(),
 
-date:
-new Date().toLocaleString(),
+date:new Date().toLocaleString(),
 
 customer:name,
 
@@ -1257,8 +1259,11 @@ phone:phone,
 
 address:address,
 
-items:
-JSON.parse(JSON.stringify(cart)),
+status:"Pending",
+
+items:JSON.parse(
+JSON.stringify(cart)
+),
 
 total:total
 
@@ -1280,28 +1285,50 @@ JSON.stringify(orders)
 );
 
 
+/* Reduce stock */
+
+cart.forEach(function(item){
+
+const product =
+products.find(p=>p.id===item.id);
+
+if(product){
+
+product.stock =
+Number(product.stock) -
+Number(item.qty);
+
+}
+
+});
+
+
+localStorage.setItem(
+"products",
+JSON.stringify(products)
+);
+
+
 cart=[];
 
 saveCart();
 
 
-document.getElementById(
-"customerName"
-).value="";
+document
+.getElementById("customerName")
+.value="";
 
+document
+.getElementById("customerPhone")
+.value="";
 
-document.getElementById(
-"customerPhone"
-).value="";
-
-
-document.getElementById(
-"customerAddress"
-).value="";
+document
+.getElementById("customerAddress")
+.value="";
 
 
 alert(
-"Order placed successfully!\n\nOrder ID: "
+"Order successful!\n\nOrder ID: "
 + order.id
 );
 
@@ -1311,9 +1338,9 @@ showShop();
 }
 
 
-/* =====================================================
-   ADMIN LOGIN
-===================================================== */
+/* =========================
+ADMIN LOGIN
+========================= */
 
 function openAdmin(){
 
@@ -1329,53 +1356,33 @@ return;
 }
 
 
-document.getElementById(
-"loginModal"
-).style.display="flex";
-
-
-setTimeout(function(){
-
-document.getElementById(
-"adminPassword"
-).focus();
-
-},100);
+document
+.getElementById("loginModal")
+.style.display="flex";
 
 }
 
-
-/* =====================================================
-   CLOSE LOGIN
-===================================================== */
 
 function closeLogin(){
 
-document.getElementById(
-"loginModal"
-).style.display="none";
+document
+.getElementById("loginModal")
+.style.display="none";
 
-
-document.getElementById(
-"adminPassword"
-).value="";
+document
+.getElementById("adminPassword")
+.value="";
 
 }
 
-
-/* =====================================================
-   ADMIN LOGIN PASSWORD
-===================================================== */
 
 function loginAdmin(){
 
 const password =
-document.getElementById(
-"adminPassword"
-).value;
+document
+.getElementById("adminPassword")
+.value;
 
-
-/* ADMIN PASSWORD */
 
 if(password==="saidul@#12"){
 
@@ -1390,18 +1397,12 @@ showAdmin();
 
 }else{
 
-alert(
-"Wrong admin password!"
-);
+alert("Wrong password!");
 
 }
 
 }
 
-
-/* =====================================================
-   LOGOUT ADMIN
-===================================================== */
 
 function logoutAdmin(){
 
@@ -1414,23 +1415,11 @@ showShop();
 }
 
 
-/* =====================================================
-   SHOW ADMIN
-===================================================== */
+/* =========================
+ADMIN
+========================= */
 
 function showAdmin(){
-
-if(
-localStorage.getItem("adminLoggedIn")
-!=="yes"
-){
-
-openAdmin();
-
-return;
-
-}
-
 
 document
 .getElementById("shopPage")
@@ -1444,23 +1433,68 @@ document
 .getElementById("adminPage")
 .classList.remove("hidden");
 
-
 renderAdminProducts();
 
 renderOrders();
 
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+window.scrollTo(0,0);
 
 }
 
 
-/* =====================================================
-   SAVE PRODUCT
-===================================================== */
+/* =========================
+IMAGE
+========================= */
+
+function previewImage(event){
+
+const file =
+event.target.files[0];
+
+if(!file)return;
+
+
+if(!file.type.startsWith("image/")){
+
+alert("Please select an image.");
+
+return;
+
+}
+
+
+const reader =
+new FileReader();
+
+
+reader.onload=function(e){
+
+selectedImage =
+e.target.result;
+
+
+const preview =
+document.getElementById(
+"imagePreview"
+);
+
+preview.src =
+selectedImage;
+
+preview.style.display =
+"block";
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+SAVE PRODUCT
+========================= */
 
 function saveProduct(){
 
@@ -1479,11 +1513,12 @@ document
 );
 
 
-const image =
+const stock =
+Number(
 document
-.getElementById("productImage")
+.getElementById("productStock")
 .value
-.trim();
+);
 
 
 const sizes =
@@ -1491,11 +1526,7 @@ document
 .getElementById("productSizes")
 .value
 .split(",")
-.map(function(item){
-
-return item.trim();
-
-})
+.map(x=>x.trim())
 .filter(Boolean);
 
 
@@ -1504,11 +1535,7 @@ document
 .getElementById("productColors")
 .value
 .split(",")
-.map(function(item){
-
-return item.trim();
-
-})
+.map(x=>x.trim())
 .filter(Boolean);
 
 
@@ -1521,7 +1548,7 @@ document
 
 if(!name){
 
-alert("Please enter product name.");
+alert("Enter product name.");
 
 return;
 
@@ -1530,100 +1557,82 @@ return;
 
 if(!price || price<=0){
 
-alert("Please enter a valid price.");
+alert("Enter valid price.");
 
 return;
 
 }
 
 
-if(!image){
+if(stock<0 || isNaN(stock)){
 
-alert("Please enter image URL.");
+alert("Enter valid stock.");
 
 return;
 
 }
 
 
-const finalSizes =
-sizes.length
-? sizes
-: ["Free Size"];
-
-
-const finalColors =
-colors.length
-? colors
-: ["Default"];
-
+/* EDIT */
 
 if(editingId){
 
 const product =
-products.find(function(item){
+products.find(
+p=>p.id===editingId
+);
 
-return item.id===editingId;
-
-});
-
-
-if(product){
 
 product.name=name;
 
 product.price=price;
 
-product.image=image;
+product.stock=stock;
 
-product.sizes=finalSizes;
 
-product.colors=finalColors;
+if(selectedImage){
 
-product.description=description;
+product.image=
+selectedImage;
 
 }
+
+
+product.sizes =
+sizes.length ?
+sizes :
+["Free Size"];
+
+
+product.colors =
+colors.length ?
+colors :
+["Default"];
+
+
+product.description =
+description;
+
 
 editingId=null;
 
 
-alert(
-"Product updated successfully!"
-);
-
-
-}else{
-
-products.push({
-
-id:Date.now(),
-
-name:name,
-
-price:price,
-
-image:image,
-
-sizes:finalSizes,
-
-colors:finalColors,
-
-description:description
-
-});
-
-
-alert(
-"Product added successfully!"
-);
-
-}
-
+try{
 
 localStorage.setItem(
 "products",
 JSON.stringify(products)
 );
+
+}catch(error){
+
+alert(
+"Image too large. Please use a smaller picture."
+);
+
+return;
+
+}
 
 
 clearForm();
@@ -1632,53 +1641,144 @@ renderAdminProducts();
 
 renderProducts();
 
+alert("Product updated!");
+
+return;
+
 }
 
 
-/* =====================================================
-   CLEAR PRODUCT FORM
-===================================================== */
+/* NEW */
+
+if(!selectedImage){
+
+alert(
+"Please choose product picture."
+);
+
+return;
+
+}
+
+
+const newProduct={
+
+id:Date.now(),
+
+name:name,
+
+price:price,
+
+stock:stock,
+
+image:selectedImage,
+
+sizes:
+sizes.length ?
+sizes :
+["Free Size"],
+
+colors:
+colors.length ?
+colors :
+["Default"],
+
+description:description
+
+};
+
+
+products.push(newProduct);
+
+
+try{
+
+localStorage.setItem(
+"products",
+JSON.stringify(products)
+);
+
+}catch(error){
+
+products.pop();
+
+alert(
+"Picture too large. Please choose a smaller picture."
+);
+
+return;
+
+}
+
+
+clearForm();
+
+renderAdminProducts();
+
+renderProducts();
+
+alert(
+"Product added successfully!"
+);
+
+}
+
+
+/* =========================
+CLEAR
+========================= */
 
 function clearForm(){
 
-document.getElementById(
-"productName"
-).value="";
+document
+.getElementById("productName")
+.value="";
+
+document
+.getElementById("productPrice")
+.value="";
+
+document
+.getElementById("productStock")
+.value="";
+
+document
+.getElementById("productImage")
+.value="";
+
+document
+.getElementById("productSizes")
+.value="";
+
+document
+.getElementById("productColors")
+.value="";
+
+document
+.getElementById("productDescription")
+.value="";
 
 
-document.getElementById(
-"productPrice"
-).value="";
+document
+.getElementById("imagePreview")
+.src="";
 
 
-document.getElementById(
-"productImage"
-).value="";
+document
+.getElementById("imagePreview")
+.style.display="none";
 
 
-document.getElementById(
-"productSizes"
-).value="";
-
-
-document.getElementById(
-"productColors"
-).value="";
-
-
-document.getElementById(
-"productDescription"
-).value="";
-
+selectedImage="";
 
 editingId=null;
 
 }
 
 
-/* =====================================================
-   ADMIN PRODUCT LIST
-===================================================== */
+/* =========================
+ADMIN PRODUCT LIST
+========================= */
 
 function renderAdminProducts(){
 
@@ -1687,57 +1787,64 @@ document.getElementById(
 "adminProducts"
 );
 
-
 box.innerHTML="";
 
 
 if(products.length===0){
 
 box.innerHTML=
-"<p>No products available.</p>";
+"<p>No products.</p>";
 
 return;
 
 }
 
 
-products.forEach(function(product){
+products.forEach(function(p){
 
 box.innerHTML += `
 
 <div class="adminProduct">
 
-<strong>
-${product.name}
-</strong>
+<img
+src="${p.image}"
+onerror="this.src='https://via.placeholder.com/100?text=Product'"
+>
+
+<strong>${p.name}</strong>
 
 <br>
 
-Price:
-৳${Number(product.price).toLocaleString()}
+💰 Price:
+৳${Number(p.price).toLocaleString()}
 
 <br>
 
-Sizes:
-${product.sizes.join(", ")}
+📦 Stock:
+${p.stock}
 
 <br>
 
-Colors:
-${product.colors.join(", ")}
+📏 Sizes:
+${p.sizes.join(", ")}
 
-<br><br>
+<br>
+
+🎨 Colors:
+${p.colors.join(", ")}
+
+<br>
 
 <button
 class="edit"
-onclick="editProduct(${product.id})"
+onclick="editProduct(${p.id})"
 >
 ✏️ Edit
 </button>
 
 <button
 class="delete"
-onclick="deleteProduct(${product.id})"
+onclick="deleteProduct(${p.id})"
 >
 🗑️ Delete
 </button>
@@ -1751,58 +1858,64 @@ onclick="deleteProduct(${product.id})"
 }
 
 
-/* =====================================================
-   EDIT PRODUCT
-===================================================== */
+/* =========================
+EDIT
+========================= */
 
 function editProduct(id){
 
-const product =
-products.find(function(item){
+const p =
+products.find(
+x=>x.id===id
+);
 
-return item.id===id;
-
-});
-
-
-if(!product){
-
-return;
-
-}
+if(!p)return;
 
 
-document.getElementById(
-"productName"
-).value=product.name;
+document
+.getElementById("productName")
+.value=p.name;
 
 
-document.getElementById(
-"productPrice"
-).value=product.price;
+document
+.getElementById("productPrice")
+.value=p.price;
 
 
-document.getElementById(
-"productImage"
-).value=product.image;
+document
+.getElementById("productStock")
+.value=p.stock;
 
 
-document.getElementById(
-"productSizes"
-).value=
-product.sizes.join(",");
+document
+.getElementById("productSizes")
+.value=
+p.sizes.join(",");
 
 
-document.getElementById(
-"productColors"
-).value=
-product.colors.join(",");
+document
+.getElementById("productColors")
+.value=
+p.colors.join(",");
 
 
-document.getElementById(
-"productDescription"
-).value=
-product.description || "";
+document
+.getElementById("productDescription")
+.value=
+p.description || "";
+
+
+selectedImage=p.image;
+
+
+document
+.getElementById("imagePreview")
+.src=p.image;
+
+
+document
+.getElementById("imagePreview")
+.style.display="block";
 
 
 editingId=id;
@@ -1816,36 +1929,25 @@ behavior:"smooth"
 }
 
 
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
+/* =========================
+DELETE PRODUCT
+========================= */
 
 function deleteProduct(id){
 
-const product =
-products.find(function(item){
-
-return item.id===id;
-
-});
-
-
-if(!product){
-
-return;
-
-}
-
-
-const confirmDelete =
-confirm(
-'Delete "'+
-product.name+
-'"?'
+const p =
+products.find(
+x=>x.id===id
 );
 
+if(!p)return;
 
-if(!confirmDelete){
+
+if(
+!confirm(
+'Delete "'+p.name+'"?'
+)
+){
 
 return;
 
@@ -1853,11 +1955,9 @@ return;
 
 
 products =
-products.filter(function(item){
-
-return item.id!==id;
-
-});
+products.filter(
+x=>x.id!==id
+);
 
 
 localStorage.setItem(
@@ -1870,22 +1970,19 @@ renderAdminProducts();
 
 renderProducts();
 
-
-alert(
-"Product deleted."
-);
-
 }
 
 
-/* =====================================================
-   RENDER ORDERS
-===================================================== */
+/* =========================
+ORDERS
+========================= */
 
 function renderOrders(){
 
 const box =
-document.getElementById("orders");
+document.getElementById(
+"orders"
+);
 
 
 const orders =
@@ -1909,18 +2006,16 @@ return;
 
 orders.forEach(function(order){
 
-let itemsHTML="";
+let items="";
 
 
 order.items.forEach(function(item){
 
-itemsHTML += `
+items += `
 
-<div style="margin:7px 0;">
+<div style="margin:8px 0">
 
-<strong>
-${item.name}
-</strong>
+<strong>${item.name}</strong>
 
 <br>
 
@@ -1953,9 +2048,7 @@ box.innerHTML += `
 
 <div class="order">
 
-<h3>
-${order.id}
-</h3>
+<h3>${order.id}</h3>
 
 <p>
 <strong>Date:</strong>
@@ -1981,11 +2074,9 @@ ${order.address}
 
 <hr>
 
-<h4>
-Ordered Products
-</h4>
+<strong>Products:</strong>
 
-${itemsHTML}
+${items}
 
 <hr>
 
@@ -1993,6 +2084,43 @@ ${itemsHTML}
 Total:
 ৳${Number(order.total).toLocaleString()}
 </h3>
+
+<label>
+Order Status
+</label>
+
+<select
+class="status"
+onchange="changeOrderStatus('${order.id}',this.value)"
+>
+
+<option
+${order.status==="Pending" ? "selected" : ""}
+>
+Pending
+</option>
+
+<option
+${order.status==="Confirmed" ? "selected" : ""}
+>
+Confirmed
+</option>
+
+<option
+${order.status==="Delivered" ? "selected" : ""}
+>
+Delivered
+</option>
+
+<option
+${order.status==="Cancelled" ? "selected" : ""}
+>
+Cancelled
+</option>
+
+</select>
+
+<br>
 
 <button
 class="delete"
@@ -2010,9 +2138,45 @@ onclick="deleteOrder('${order.id}')"
 }
 
 
-/* =====================================================
-   DELETE ORDER
-===================================================== */
+/* =========================
+ORDER STATUS
+========================= */
+
+function changeOrderStatus(id,status){
+
+let orders =
+JSON.parse(
+localStorage.getItem("orders")
+) || [];
+
+
+const order =
+orders.find(
+x=>x.id===id
+);
+
+
+if(order){
+
+order.status=status;
+
+}
+
+
+localStorage.setItem(
+"orders",
+JSON.stringify(orders)
+);
+
+
+renderOrders();
+
+}
+
+
+/* =========================
+DELETE ORDER
+========================= */
 
 function deleteOrder(id){
 
@@ -2032,11 +2196,9 @@ localStorage.getItem("orders")
 
 
 orders =
-orders.filter(function(order){
-
-return order.id!==id;
-
-});
+orders.filter(
+x=>x.id!==id
+);
 
 
 localStorage.setItem(
@@ -2047,17 +2209,12 @@ JSON.stringify(orders)
 
 renderOrders();
 
-
-alert(
-"Order deleted."
-);
-
 }
 
 
-/* =====================================================
-   START WEBSITE
-===================================================== */
+/* =========================
+START
+========================= */
 
 updateCartCount();
 
