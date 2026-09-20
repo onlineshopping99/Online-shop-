@@ -1,1089 +1,994 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Said Online Shop</title>
+<title>Online Shop</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f6fa;
-            color: #222;
-        }
+body{
+  background:#f5f5f5;
+  color:#222;
+}
 
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, #111827, #2563eb);
-            color: white;
-            padding: 20px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
-        }
+header{
+  background:#111;
+  color:white;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
 
-        .header-content {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
+.cart-button{
+  background:#fff;
+  color:#111;
+  border:none;
+  padding:10px 15px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-        .cart-top {
-            background: white;
-            color: #111827;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 25px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.hero{
+  background:linear-gradient(135deg,#111,#444);
+  color:white;
+  text-align:center;
+  padding:50px 20px;
+}
 
-        /* HERO */
-        .hero {
-            background: linear-gradient(135deg, #dbeafe, #eff6ff);
-            text-align: center;
-            padding: 55px 20px;
-        }
+.hero h1{
+  font-size:36px;
+  margin-bottom:10px;
+}
 
-        .hero h1 {
-            font-size: 40px;
-            color: #111827;
-            margin-bottom: 12px;
-        }
+.hero p{
+  font-size:18px;
+}
 
-        .hero p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 25px;
-        }
+.search-box{
+  padding:20px;
+  text-align:center;
+}
 
-        .hero-btn {
-            display: inline-block;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 13px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-        }
+.search-box input{
+  width:90%;
+  max-width:500px;
+  padding:14px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:16px;
+}
 
-        /* SEARCH */
-        .search-area {
-            max-width: 700px;
-            margin: 25px auto;
-            padding: 0 15px;
-        }
+.products{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
 
-        .search-box {
-            width: 100%;
-            padding: 16px 20px;
-            border: none;
-            border-radius: 30px;
-            background: white;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            font-size: 16px;
-            outline: none;
-        }
+.product{
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+  padding-bottom:15px;
+}
 
-        /* PRODUCTS */
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px 15px 60px;
-        }
+.product img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
 
-        .section-title {
-            text-align: center;
-            font-size: 28px;
-            margin: 25px 0;
-        }
+.product-info{
+  padding:15px;
+}
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
+.product h3{
+  margin-bottom:8px;
+}
 
-        .product {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
+.price{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
 
-        .product:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
+.product select{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
 
-        .product-image {
-            height: 190px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 75px;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-        }
+.add-btn{
+  width:100%;
+  padding:12px;
+  background:#111;
+  color:white;
+  border:none;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:15px;
+}
 
-        .product-info {
-            padding: 18px;
-        }
+.add-btn:hover{
+  background:#333;
+}
 
-        .product-info h3 {
-            font-size: 19px;
-            margin-bottom: 8px;
-        }
+.cart-section{
+  max-width:900px;
+  margin:30px auto;
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
 
-        .product-info p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid #ddd;
+  padding:15px 0;
+}
 
-        .price {
-            font-size: 21px;
-            font-weight: bold;
-            color: #2563eb;
-            margin-bottom: 15px;
-        }
+.cart-info{
+  flex:1;
+}
 
-        .add-btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 9px;
-            background: #111827;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-        .add-btn:hover {
-            background: #2563eb;
-        }
+.qty button{
+  width:30px;
+  height:30px;
+  border:none;
+  background:#111;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+}
 
-        /* CART */
-        .cart-section {
-            max-width: 700px;
-            margin: 20px auto;
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-        }
+.remove-btn{
+  background:#e53935;
+  color:white;
+  border:none;
+  padding:7px 10px;
+  border-radius:5px;
+  cursor:pointer;
+}
 
-        .cart-section h2 {
-            margin-bottom: 20px;
-        }
+.total{
+  text-align:right;
+  font-size:22px;
+  font-weight:bold;
+  margin-top:20px;
+}
 
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
+.order-form{
+  max-width:900px;
+  margin:30px auto;
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
 
-        .cart-item-info {
-            flex: 1;
-        }
+.order-form h2{
+  margin-bottom:20px;
+}
 
-        .cart-item-info strong {
-            display: block;
-            margin-bottom: 5px;
-        }
+.order-form input,
+.order-form textarea{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  border:1px solid #ccc;
+  border-radius:7px;
+  font-size:16px;
+}
 
-        .quantity {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.order-form textarea{
+  height:100px;
+  resize:vertical;
+}
 
-        .quantity button {
-            width: 30px;
-            height: 30px;
-            border: none;
-            background: #2563eb;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-        }
+.order-btn{
+  width:100%;
+  padding:14px;
+  background:#198754;
+  color:white;
+  border:none;
+  border-radius:7px;
+  font-size:17px;
+  cursor:pointer;
+}
 
-        .remove-btn {
-            background: #dc2626 !important;
-        }
+.order-btn:hover{
+  background:#146c43;
+}
 
-        .cart-total {
-            text-align: right;
-            font-size: 23px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+.message{
+  max-width:900px;
+  margin:20px auto;
+  padding:20px;
+  background:#d1e7dd;
+  color:#0f5132;
+  border-radius:10px;
+  display:none;
+}
 
-        .checkout-btn {
-            width: 100%;
-            margin-top: 20px;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #16a34a;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+footer{
+  margin-top:40px;
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:25px;
+}
 
-        /* ORDER */
-        .order-section {
-            max-width: 700px;
-            margin: 30px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-        }
+@media(max-width:600px){
+  .hero h1{
+    font-size:28px;
+  }
 
-        .order-section h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+  .cart-item{
+    flex-direction:column;
+    align-items:flex-start;
+  }
 
-        .order-section input,
-        .order-section textarea {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .order-section textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .order-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #25d366;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* FOOTER */
-        footer {
-            background: #111827;
-            color: white;
-            text-align: center;
-            padding: 30px 15px;
-        }
-
-        footer p {
-            margin: 7px;
-            color: #ddd;
-        }
-
-        /* MOBILE */
-        @media (max-width: 900px) {
-            .products {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .header-content {
-                flex-direction: column;
-            }
-
-            .hero h1 {
-                font-size: 30px;
-            }
-
-            .products {
-                grid-template-columns: 1fr;
-            }
-
-            .product-image {
-                height: 220px;
-            }
-
-            .cart-item {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+  .qty{
+    margin:5px 0;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
-    <div class="header-content">
+  <div class="logo">My Online Shop</div>
 
-        <div class="logo">
-            🛍️ Said Online Shop
-        </div>
-
-        <button class="cart-top" onclick="scrollToCart()">
-            🛒 Cart (<span id="cartCount">0</span>)
-        </button>
-
-    </div>
+  <button class="cart-button" onclick="scrollToCart()">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </button>
 </header>
 
-
-<!-- HERO -->
 <section class="hero">
+  <h1>Welcome To My Online Shop</h1>
+  <p>Quality Products At Best Price</p>
+</section>
 
-    <h1>Welcome to Said Online Shop</h1>
+<div class="search-box">
+  <input
+    type="text"
+    id="search"
+    placeholder="🔍 Search product..."
+    onkeyup="searchProducts()"
+  >
+</div>
 
-    <p>
-        আপনার পছন্দের পণ্য এখন সহজেই অনলাইনে অর্ডার করুন
-    </p>
+<section class="products" id="products">
 
-    <a href="#products" class="hero-btn">
-        🛍️ Shop Now
-    </a>
+  <!-- Smart Watch -->
+  <div class="product" data-name="Smart Watch">
+    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Smart Watch</h3>
+      <div class="price">৳1500</div>
+
+      <select class="size">
+        <option value="N/A">Size: N/A</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>White</option>
+        <option>Blue</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Smart Watch',1500,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Headphone -->
+  <div class="product" data-name="Wireless Headphone">
+    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Wireless Headphone</h3>
+      <div class="price">৳1200</div>
+
+      <select class="size">
+        <option value="N/A">Size: N/A</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>White</option>
+        <option>Red</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Wireless Headphone',1200,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Running Shoes -->
+  <div class="product" data-name="Running Shoes">
+    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Running Shoes</h3>
+      <div class="price">৳2200</div>
+
+      <select class="size">
+        <option>40</option>
+        <option>41</option>
+        <option>42</option>
+        <option>43</option>
+        <option>44</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>White</option>
+        <option>Red</option>
+        <option>Blue</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Running Shoes',2200,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Backpack -->
+  <div class="product" data-name="Backpack">
+    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Backpack</h3>
+      <div class="price">৳1000</div>
+
+      <select class="size">
+        <option value="N/A">Size: N/A</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>Blue</option>
+        <option>Red</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Backpack',1000,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Sunglasses -->
+  <div class="product" data-name="Sunglasses">
+    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Sunglasses</h3>
+      <div class="price">৳800</div>
+
+      <select class="size">
+        <option value="N/A">Size: N/A</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>Brown</option>
+        <option>Blue</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Sunglasses',800,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Premium T Shirt -->
+  <div class="product" data-name="Premium T-Shirt">
+    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Premium T-Shirt</h3>
+      <div class="price">৳650</div>
+
+      <select class="size">
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+        <option>XXL</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>White</option>
+        <option>Red</option>
+        <option>Blue</option>
+        <option>Green</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Premium T-Shirt',650,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Black T Shirt -->
+  <div class="product" data-name="Black T-Shirt">
+    <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>Black T-Shirt</h3>
+      <div class="price">৳550</div>
+
+      <select class="size">
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+        <option>XXL</option>
+      </select>
+
+      <select class="color">
+        <option>Black</option>
+        <option>White</option>
+        <option>Red</option>
+        <option>Blue</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('Black T-Shirt',550,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+
+  <!-- White T Shirt -->
+  <div class="product" data-name="White T-Shirt">
+    <img src="https://images.unsplash.com/photo-1527719327859-36f2d1f2b0b1?auto=format&fit=crop&w=600&q=80">
+
+    <div class="product-info">
+      <h3>White T-Shirt</h3>
+      <div class="price">৳550</div>
+
+      <select class="size">
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+        <option>XXL</option>
+      </select>
+
+      <select class="color">
+        <option>White</option>
+        <option>Black</option>
+        <option>Red</option>
+        <option>Blue</option>
+      </select>
+
+      <button class="add-btn" onclick="addToCart('White T-Shirt',550,this)">
+        Add To Cart
+      </button>
+    </div>
+  </div>
 
 </section>
 
 
-<!-- SEARCH -->
-<div class="search-area">
-
-    <input
-        type="text"
-        id="searchInput"
-        class="search-box"
-        placeholder="🔎 পণ্য খুঁজুন..."
-        onkeyup="searchProducts()"
-    >
-
-</div>
-
-
-<!-- PRODUCTS -->
-<div class="container" id="products">
-
-    <h2 class="section-title">
-        🛒 Our Products
-    </h2>
-
-    <div class="products" id="productList">
-
-
-        <!-- PRODUCT 1 -->
-        <div class="product" data-name="Smart Watch">
-
-            <div class="product-image">
-                ⌚
-            </div>
-
-            <div class="product-info">
-
-                <h3>Smart Watch</h3>
-
-                <p>
-                    Stylish smart watch for everyday use.
-                </p>
-
-                <div class="price">
-                    ৳1,500
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Smart Watch', 1500)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 2 -->
-        <div class="product" data-name="Headphone">
-
-            <div class="product-image">
-                🎧
-            </div>
-
-            <div class="product-info">
-
-                <h3>Wireless Headphone</h3>
-
-                <p>
-                    High quality wireless headphone.
-                </p>
-
-                <div class="price">
-                    ৳1,200
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Wireless Headphone', 1200)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 3 -->
-        <div class="product" data-name="T Shirt">
-
-            <div class="product-image">
-                👕
-            </div>
-
-            <div class="product-info">
-
-                <h3>Premium T-Shirt</h3>
-
-                <p>
-                    Comfortable premium quality T-shirt.
-                </p>
-
-                <div class="price">
-                    ৳650
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Premium T-Shirt', 650)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 4 -->
-        <div class="product" data-name="Shoes">
-
-            <div class="product-image">
-                👟
-            </div>
-
-            <div class="product-info">
-
-                <h3>Running Shoes</h3>
-
-                <p>
-                    Lightweight and comfortable shoes.
-                </p>
-
-                <div class="price">
-                    ৳1,800
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Running Shoes', 1800)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 5 -->
-        <div class="product" data-name="Bag">
-
-            <div class="product-image">
-                🎒
-            </div>
-
-            <div class="product-info">
-
-                <h3>Travel Bag</h3>
-
-                <p>
-                    Strong and stylish travel bag.
-                </p>
-
-                <div class="price">
-                    ৳1,000
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Travel Bag', 1000)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 6 -->
-        <div class="product" data-name="Sunglasses">
-
-            <div class="product-image">
-                🕶️
-            </div>
-
-            <div class="product-info">
-
-                <h3>Sunglasses</h3>
-
-                <p>
-                    Stylish sunglasses for outdoor use.
-                </p>
-
-                <div class="price">
-                    ৳750
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Sunglasses', 750)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 7 -->
-        <div class="product" data-name="Phone">
-
-            <div class="product-image">
-                📱
-            </div>
-
-            <div class="product-info">
-
-                <h3>Smart Phone</h3>
-
-                <p>
-                    Modern smartphone with great features.
-                </p>
-
-                <div class="price">
-                    ৳15,000
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Smart Phone', 15000)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 8 -->
-        <div class="product" data-name="Power Bank">
-
-            <div class="product-image">
-                🔋
-            </div>
-
-            <div class="product-info">
-
-                <h3>Power Bank</h3>
-
-                <p>
-                    Fast charging portable power bank.
-                </p>
-
-                <div class="price">
-                    ৳900
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addToCart('Power Bank', 900)"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
 <!-- CART -->
-<div class="cart-section" id="cartSection">
+<section class="cart-section" id="cartSection">
 
-    <h2>🛒 Shopping Cart</h2>
+  <h2>🛒 Your Cart</h2>
 
-    <div id="cartItems">
-        <p>Your cart is empty.</p>
-    </div>
+  <div id="cartItems">
+    <p style="margin-top:15px;">Your cart is empty.</p>
+  </div>
 
-    <div class="cart-total">
-        Total: ৳<span id="cartTotal">0</span>
-    </div>
+  <div class="total">
+    Total: ৳<span id="total">0</span>
+  </div>
 
-    <button
-        class="checkout-btn"
-        onclick="goToOrder()"
-    >
-        ✅ Proceed to Order
-    </button>
-
-</div>
+</section>
 
 
 <!-- ORDER FORM -->
-<div class="order-section" id="orderSection">
+<section class="order-form">
 
-    <h2>📦 Order Information</h2>
+  <h2>📦 Customer Information</h2>
 
-    <input
-        type="text"
-        id="customerName"
-        placeholder="আপনার নাম"
-    >
+  <input
+    type="text"
+    id="customerName"
+    placeholder="Your Name"
+  >
 
-    <input
-        type="tel"
-        id="customerPhone"
-        placeholder="মোবাইল নম্বর"
-    >
+  <input
+    type="tel"
+    id="customerPhone"
+    placeholder="Phone Number"
+  >
 
-    <textarea
-        id="customerAddress"
-        placeholder="আপনার সম্পূর্ণ ঠিকানা"
-    ></textarea>
+  <textarea
+    id="customerAddress"
+    placeholder="Delivery Address"
+  ></textarea>
 
-    <button
-        class="order-btn"
-        onclick="placeOrder()"
-    >
-        📱 Order Now
-    </button>
+  <button class="order-btn" onclick="placeOrder()">
+    ✅ Place Order
+  </button>
 
-</div>
+</section>
 
 
-<!-- FOOTER -->
+<!-- SUCCESS MESSAGE -->
+<div class="message" id="successMessage"></div>
+
+
 <footer>
-
-    <h3>🛍️ Said Online Shop</h3>
-
-    <p>
-        আপনার বিশ্বস্ত অনলাইন শপ
-    </p>
-
-    <p>
-        © 2026 Said Online Shop. All Rights Reserved.
-    </p>
-
+  <p>© 2026 My Online Shop</p>
+  <p>All Rights Reserved</p>
 </footer>
 
 
 <script>
 
-    let cart = [];
+let cart = JSON.parse(localStorage.getItem("shopCart")) || [];
 
 
-    // ADD TO CART
-    function addToCart(name, price) {
+/* ADD TO CART */
+function addToCart(name, price, button){
 
-        let existing = cart.find(item => item.name === name);
+  const product = button.closest(".product");
 
-        if (existing) {
+  const size = product.querySelector(".size").value;
+  const color = product.querySelector(".color").value;
 
-            existing.quantity++;
+  const existing = cart.find(item =>
+    item.name === name &&
+    item.size === size &&
+    item.color === color
+  );
 
-        } else {
+  if(existing){
 
-            cart.push({
-                name: name,
-                price: price,
-                quantity: 1
-            });
+    existing.quantity++;
 
-        }
+  }else{
 
-        updateCart();
+    cart.push({
+      name:name,
+      price:price,
+      size:size,
+      color:color,
+      quantity:1
+    });
 
-        alert("✅ " + name + " cart-এ যোগ হয়েছে!");
+  }
+
+  saveCart();
+
+  alert("Product added to cart!");
+
+}
+
+
+/* SAVE CART */
+function saveCart(){
+
+  localStorage.setItem(
+    "shopCart",
+    JSON.stringify(cart)
+  );
+
+  displayCart();
+
+}
+
+
+/* DISPLAY CART */
+function displayCart(){
+
+  const cartItems =
+    document.getElementById("cartItems");
+
+  const cartCount =
+    document.getElementById("cartCount");
+
+  const totalElement =
+    document.getElementById("total");
+
+  if(cart.length === 0){
+
+    cartItems.innerHTML =
+      "<p style='margin-top:15px;'>Your cart is empty.</p>";
+
+    cartCount.innerText = "0";
+
+    totalElement.innerText = "0";
+
+    return;
+  }
+
+
+  let html = "";
+
+  let total = 0;
+
+  let count = 0;
+
+
+  cart.forEach((item,index)=>{
+
+    const itemTotal =
+      item.price * item.quantity;
+
+    total += itemTotal;
+
+    count += item.quantity;
+
+
+    html += `
+
+      <div class="cart-item">
+
+        <div class="cart-info">
+
+          <strong>${item.name}</strong>
+
+          <br>
+
+          Size: ${item.size}
+
+          <br>
+
+          Color: ${item.color}
+
+          <br>
+
+          Price: ৳${item.price}
+
+        </div>
+
+
+        <div class="qty">
+
+          <button onclick="changeQuantity(${index},-1)">
+            -
+          </button>
+
+          <span>${item.quantity}</span>
+
+          <button onclick="changeQuantity(${index},1)">
+            +
+          </button>
+
+        </div>
+
+
+        <strong>
+          ৳${itemTotal}
+        </strong>
+
+
+        <button
+          class="remove-btn"
+          onclick="removeItem(${index})"
+        >
+          Remove
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+
+  cartItems.innerHTML = html;
+
+  cartCount.innerText = count;
+
+  totalElement.innerText = total;
+
+}
+
+
+/* CHANGE QUANTITY */
+function changeQuantity(index, change){
+
+  cart[index].quantity += change;
+
+
+  if(cart[index].quantity <= 0){
+
+    cart.splice(index,1);
+
+  }
+
+
+  saveCart();
+
+}
+
+
+/* REMOVE ITEM */
+function removeItem(index){
+
+  cart.splice(index,1);
+
+  saveCart();
+
+}
+
+
+/* SEARCH */
+function searchProducts(){
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase();
+
+
+  const products =
+    document.querySelectorAll(".product");
+
+
+  products.forEach(product=>{
+
+    const name =
+      product
+        .getAttribute("data-name")
+        .toLowerCase();
+
+
+    if(name.includes(search)){
+
+      product.style.display = "block";
+
+    }else{
+
+      product.style.display = "none";
 
     }
 
+  });
 
-    // UPDATE CART
-    function updateCart() {
+}
 
-        const cartItems = document.getElementById("cartItems");
 
-        const cartCount = document.getElementById("cartCount");
+/* SCROLL TO CART */
+function scrollToCart(){
 
-        const cartTotal = document.getElementById("cartTotal");
+  document
+    .getElementById("cartSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
 
+}
 
-        if (cart.length === 0) {
 
-            cartItems.innerHTML = "<p>Your cart is empty.</p>";
+/* PLACE ORDER */
+function placeOrder(){
 
-            cartCount.innerText = "0";
+  const name =
+    document
+      .getElementById("customerName")
+      .value
+      .trim();
 
-            cartTotal.innerText = "0";
 
-            return;
+  const phone =
+    document
+      .getElementById("customerPhone")
+      .value
+      .trim();
 
-        }
 
+  const address =
+    document
+      .getElementById("customerAddress")
+      .value
+      .trim();
 
-        let html = "";
 
-        let total = 0;
+  if(cart.length === 0){
 
-        let count = 0;
+    alert("Please add products to cart first.");
 
+    return;
 
-        cart.forEach((item, index) => {
+  }
 
-            let itemTotal = item.price * item.quantity;
 
-            total += itemTotal;
+  if(name === ""){
 
-            count += item.quantity;
+    alert("Please enter your name.");
 
+    return;
 
-            html += `
+  }
 
-                <div class="cart-item">
 
-                    <div class="cart-item-info">
+  if(phone === ""){
 
-                        <strong>${item.name}</strong>
+    alert("Please enter your phone number.");
 
-                        ৳${item.price} × ${item.quantity}
+    return;
 
-                    </div>
+  }
 
 
-                    <div class="quantity">
+  if(address === ""){
 
-                        <button onclick="decrease(${index})">
-                            -
-                        </button>
+    alert("Please enter your delivery address.");
 
-                        <span>
-                            ${item.quantity}
-                        </span>
+    return;
 
-                        <button onclick="increase(${index})">
-                            +
-                        </button>
+  }
 
-                        <button
-                            class="remove-btn"
-                            onclick="removeItem(${index})"
-                        >
-                            ×
-                        </button>
 
-                    </div>
+  let total = 0;
 
-                </div>
+  cart.forEach(item=>{
 
-            `;
+    total +=
+      item.price * item.quantity;
 
-        });
+  });
 
 
-        cartItems.innerHTML = html;
+  const orderId =
+    "ORD" +
+    Date.now();
 
-        cartCount.innerText = count;
 
-        cartTotal.innerText = total;
+  const order = {
 
-    }
+    orderId:orderId,
 
+    customerName:name,
 
-    // INCREASE
-    function increase(index) {
+    phone:phone,
 
-        cart[index].quantity++;
+    address:address,
 
-        updateCart();
+    products:cart,
 
-    }
+    total:total,
 
+    date:new Date().toLocaleString()
 
-    // DECREASE
-    function decrease(index) {
+  };
 
-        cart[index].quantity--;
 
-        if (cart[index].quantity <= 0) {
+  /* Save order on this device */
 
-            cart.splice(index, 1);
+  let orders =
+    JSON.parse(
+      localStorage.getItem("shopOrders")
+    ) || [];
 
-        }
 
-        updateCart();
+  orders.push(order);
 
-    }
 
+  localStorage.setItem(
+    "shopOrders",
+    JSON.stringify(orders)
+  );
 
-    // REMOVE
-    function removeItem(index) {
 
-        cart.splice(index, 1);
+  const message =
+    document.getElementById("successMessage");
 
-        updateCart();
 
-    }
+  message.style.display = "block";
 
 
-    // SCROLL TO CART
-    function scrollToCart() {
+  message.innerHTML = `
 
-        document
-            .getElementById("cartSection")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
+    <h2>✅ Order Placed Successfully!</h2>
 
-    }
+    <br>
 
+    <p>
+      <strong>Order ID:</strong>
+      ${orderId}
+    </p>
 
-    // GO TO ORDER
-    function goToOrder() {
+    <p>
+      <strong>Name:</strong>
+      ${name}
+    </p>
 
-        if (cart.length === 0) {
+    <p>
+      <strong>Phone:</strong>
+      ${phone}
+    </p>
 
-            alert("⚠️ আগে cart-এ product যোগ করুন!");
+    <p>
+      <strong>Address:</strong>
+      ${address}
+    </p>
 
-            return;
+    <p>
+      <strong>Total:</strong>
+      ৳${total}
+    </p>
 
-        }
+    <br>
 
-        document
-            .getElementById("orderSection")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
+    <p>
+      Your order information has been saved.
+    </p>
 
-    }
+  `;
 
 
-    // SEARCH
-    function searchProducts() {
+  /* Empty cart */
 
-        let search =
-            document
-            .getElementById("searchInput")
-            .value
-            .toLowerCase();
+  cart = [];
 
+  saveCart();
 
-        let products =
-            document.querySelectorAll(".product");
 
+  /* Clear form */
 
-        products.forEach(product => {
+  document.getElementById("customerName").value = "";
 
-            let name =
-                product
-                .getAttribute("data-name")
-                .toLowerCase();
+  document.getElementById("customerPhone").value = "";
 
+  document.getElementById("customerAddress").value = "";
 
-            if (name.includes(search)) {
 
-                product.style.display = "";
+  message.scrollIntoView({
+    behavior:"smooth"
+  });
 
-            } else {
+}
 
-                product.style.display = "none";
 
-            }
+/* LOAD CART WHEN PAGE OPENS */
 
-        });
-
-    }
-
-
-    // PLACE ORDER
-    function placeOrder() {
-
-        if (cart.length === 0) {
-
-            alert("⚠️ আপনার cart খালি!");
-
-            return;
-
-        }
-
-
-        let name =
-            document
-            .getElementById("customerName")
-            .value
-            .trim();
-
-
-        let phone =
-            document
-            .getElementById("customerPhone")
-            .value
-            .trim();
-
-
-        let address =
-            document
-            .getElementById("customerAddress")
-            .value
-            .trim();
-
-
-        if (!name || !phone || !address) {
-
-            alert("⚠️ দয়া করে আপনার নাম, মোবাইল নম্বর এবং ঠিকানা দিন।");
-
-            return;
-
-        }
-
-
-        let message =
-            "🛍️ Said Online Shop Order%0A%0A";
-
-
-        message +=
-            "👤 Name: " +
-            encodeURIComponent(name) +
-            "%0A";
-
-
-        message +=
-            "📱 Phone: " +
-            encodeURIComponent(phone) +
-            "%0A";
-
-
-        message +=
-            "📍 Address: " +
-            encodeURIComponent(address) +
-            "%0A%0A";
-
-
-        message += "🛒 Products:%0A";
-
-
-        let total = 0;
-
-
-        cart.forEach(item => {
-
-            let itemTotal =
-                item.price * item.quantity;
-
-
-            total += itemTotal;
-
-
-            message +=
-                encodeURIComponent(
-                    item.name +
-                    " × " +
-                    item.quantity +
-                    " = ৳" +
-                    itemTotal
-                ) +
-                "%0A";
-
-        });
-
-
-        message +=
-            "%0A💰 Total: ৳" +
-            total;
-
-
-        /*
-         * IMPORTANT:
-         * এখানে আপনার WhatsApp নম্বর বসাবেন।
-         *
-         * Example:
-         * 8801712345678
-         *
-         * + চিহ্ন বা space দেবেন না।
-         */
-
-        let whatsappNumber = "8801XXXXXXXXX";
-
-
-        if (whatsappNumber === "8801XXXXXXXXX") {
-
-            alert(
-                "⚠️ WhatsApp order চালু করতে কোডের ভিতরে আপনার WhatsApp নম্বর বসাতে হবে।"
-            );
-
-            return;
-
-        }
-
-
-        let url =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            message;
-
-
-        window.open(url, "_blank");
-
-    }
-
-
-    // INITIAL CART
-    updateCart();
+displayCart();
 
 </script>
 
