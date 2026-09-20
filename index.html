@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>My Online Shop</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -14,14 +16,14 @@
 
 body{
   font-family:Arial,sans-serif;
-  background:#f5f6f8;
+  background:#f4f6f8;
   color:#222;
 }
 
 header{
   background:#111827;
   color:white;
-  padding:14px 4%;
+  padding:13px 4%;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -31,7 +33,7 @@ header{
 }
 
 .logo{
-  font-size:21px;
+  font-size:20px;
   font-weight:bold;
 }
 
@@ -66,7 +68,7 @@ nav button{
 }
 
 .hero h1{
-  font-size:35px;
+  font-size:34px;
   margin-bottom:10px;
 }
 
@@ -118,15 +120,15 @@ nav button{
 }
 
 .desc{
-  font-size:14px;
   color:#666;
+  font-size:14px;
   min-height:38px;
 }
 
 .price{
+  color:#16a34a;
   font-size:20px;
   font-weight:bold;
-  color:#16a34a;
   margin:10px 0;
 }
 
@@ -156,8 +158,7 @@ nav button{
 }
 
 .card button:disabled{
-  background:#aaa;
-  cursor:not-allowed;
+  background:#999;
 }
 
 .section{
@@ -206,22 +207,38 @@ nav button{
   margin-top:10px;
 }
 
-.fileBox{
-  border:2px dashed #aaa;
-  padding:20px;
+/* GALLERY BUTTON */
+
+.galleryBtn{
+  display:block;
+  width:100%;
+  background:#2563eb;
+  color:white;
+  padding:15px;
   text-align:center;
   border-radius:8px;
   margin-top:10px;
-  background:#fafafa;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.galleryBtn:active{
+  background:#1d4ed8;
+}
+
+#productImage{
+  display:none;
 }
 
 .preview{
-  width:150px;
-  height:150px;
+  width:180px;
+  height:180px;
   object-fit:cover;
-  border-radius:8px;
-  margin-top:10px;
+  border-radius:10px;
+  margin-top:12px;
   display:none;
+  border:2px solid #ddd;
 }
 
 .cartItem{
@@ -241,7 +258,7 @@ nav button{
 
 .qty button{
   border:0;
-  padding:6px 10px;
+  padding:7px 11px;
   background:#ddd;
   border-radius:4px;
 }
@@ -294,12 +311,6 @@ nav button{
   border-radius:8px;
   margin:10px 0;
   background:#fafafa;
-}
-
-.order hr{
-  border:0;
-  border-top:1px solid #ddd;
-  margin:12px 0;
 }
 
 .status{
@@ -377,11 +388,14 @@ footer{
     flex-direction:column;
     align-items:flex-start;
   }
+
 }
+
 </style>
 </head>
 
 <body>
+
 
 <header>
 
@@ -410,9 +424,13 @@ Admin
 
 <section class="hero">
 
-<h1>Welcome To My Online Shop</h1>
+<h1>
+Welcome To My Online Shop
+</h1>
 
-<p>Quality Products • Easy Ordering • Fast Delivery</p>
+<p>
+Quality Products • Easy Ordering • Fast Delivery
+</p>
 
 </section>
 
@@ -498,7 +516,7 @@ Place Order
 <h2>👨‍💼 Admin Panel</h2>
 
 <p style="margin-top:7px">
-এখান থেকে নতুন product যোগ করতে পারবে।
+এখান থেকে Gallery থেকে ছবি নিয়ে product যোগ করতে পারবে।
 </p>
 
 <button class="primary" onclick="logoutAdmin()">
@@ -508,7 +526,7 @@ Logout
 </div>
 
 
-<!-- PRODUCT FORM -->
+<!-- ADD PRODUCT -->
 
 <div class="section">
 
@@ -533,13 +551,15 @@ type="number"
 placeholder="📦 Stock Quantity"
 >
 
-<div class="fileBox">
 
-<strong>📷 Product Picture</strong>
+<!-- IMPORTANT GALLERY BUTTON -->
 
-<p style="font-size:13px;margin-top:5px">
-Phone Gallery থেকে ছবি select করো
-</p>
+<label
+for="productImage"
+class="galleryBtn"
+>
+📷 Select Photo From Gallery
+</label>
 
 <input
 type="file"
@@ -548,35 +568,39 @@ accept="image/*"
 onchange="previewImage(event)"
 >
 
-<br>
-
 <img
 id="imagePreview"
 class="preview"
 >
 
-</div>
 
 <input
 id="productSizes"
 placeholder="Sizes: S,M,L,XL"
-/>
+>
 
 <input
 id="productColors"
 placeholder="Colors: Black,White,Red"
-/>
+>
 
 <textarea
 id="productDescription"
 placeholder="Product Description"
 ></textarea>
 
-<button class="primary" onclick="saveProduct()">
+
+<button
+class="primary"
+onclick="saveProduct()"
+>
 💾 Save Product
 </button>
 
-<button class="gray" onclick="clearForm()">
+<button
+class="gray"
+onclick="clearForm()"
+>
 Clear
 </button>
 
@@ -585,15 +609,11 @@ Clear
 </div>
 
 
-<!-- PRODUCT LIST -->
+<!-- PRODUCTS -->
 
 <div class="section">
 
 <h2>📦 Product List</h2>
-
-<p style="margin:8px 0;color:#666">
-নতুন product যোগ করলে এই list automatically বড় হবে।
-</p>
 
 <div id="adminProducts"></div>
 
@@ -615,7 +635,10 @@ Clear
 
 <!-- LOGIN -->
 
-<div class="modal" id="loginModal">
+<div
+class="modal"
+id="loginModal"
+>
 
 <div class="modalBox">
 
@@ -652,6 +675,7 @@ Cancel
 
 
 <script>
+
 
 /* =========================
 DEFAULT PRODUCTS
@@ -835,7 +859,6 @@ box.innerHTML += `
 <img
 src="${p.image}"
 alt="${p.name}"
-onerror="this.src='https://via.placeholder.com/500x400?text=Product'"
 >
 
 <div class="cardBody">
@@ -879,7 +902,9 @@ onclick="addToCart(${p.id})"
 ${stock<=0 ? "disabled" : ""}
 >
 
-${stock<=0 ? "Out of Stock" : "🛒 Add To Cart"}
+${stock<=0 ?
+"Out of Stock" :
+"🛒 Add To Cart"}
 
 </button>
 
@@ -895,7 +920,7 @@ ${stock<=0 ? "Out of Stock" : "🛒 Add To Cart"}
 
 
 /* =========================
-ADD TO CART
+CART
 ========================= */
 
 function addToCart(id){
@@ -954,15 +979,10 @@ existing.qty++;
 cart.push({
 
 id:id,
-
 name:product.name,
-
 price:Number(product.price),
-
 size:size,
-
 color:color,
-
 qty:1
 
 });
@@ -976,10 +996,6 @@ alert("Product added to cart!");
 
 }
 
-
-/* =========================
-CART
-========================= */
 
 function saveCart(){
 
@@ -1112,7 +1128,7 @@ Remove
 
 document
 .getElementById("cartTotal")
-.innerText =
+.innerText=
 total.toLocaleString();
 
 }
@@ -1135,7 +1151,7 @@ item.qty > Number(product.stock)){
 item.qty =
 Number(product.stock);
 
-alert("Maximum available stock reached.");
+alert("Maximum stock reached.");
 
 }
 
@@ -1222,9 +1238,7 @@ products.find(p=>p.id===item.id);
 
 if(!product){
 
-alert(
-"Some product is no longer available."
-);
+alert("Product unavailable.");
 
 return;
 
@@ -1233,7 +1247,7 @@ return;
 if(Number(product.stock) < Number(item.qty)){
 
 alert(
-"Not enough stock for: "+product.name
+"Not enough stock: "+product.name
 );
 
 return;
@@ -1285,8 +1299,6 @@ JSON.stringify(orders)
 );
 
 
-/* Reduce stock */
-
 cart.forEach(function(item){
 
 const product =
@@ -1294,9 +1306,7 @@ products.find(p=>p.id===item.id);
 
 if(product){
 
-product.stock =
-Number(product.stock) -
-Number(item.qty);
+product.stock -= item.qty;
 
 }
 
@@ -1314,22 +1324,14 @@ cart=[];
 saveCart();
 
 
-document
-.getElementById("customerName")
-.value="";
-
-document
-.getElementById("customerPhone")
-.value="";
-
-document
-.getElementById("customerAddress")
-.value="";
+document.getElementById("customerName").value="";
+document.getElementById("customerPhone").value="";
+document.getElementById("customerAddress").value="";
 
 
 alert(
-"Order successful!\n\nOrder ID: "
-+ order.id
+"Order successful!\n\nOrder ID: "+
+order.id
 );
 
 
@@ -1443,25 +1445,38 @@ window.scrollTo(0,0);
 
 
 /* =========================
-IMAGE
+GALLERY PHOTO
 ========================= */
 
 function previewImage(event){
 
 const file =
+event.target.files &&
 event.target.files[0];
 
-if(!file)return;
 
-
-if(!file.type.startsWith("image/")){
-
-alert("Please select an image.");
+if(!file){
 
 return;
 
 }
 
+
+if(!file.type.startsWith("image/")){
+
+alert("Please select a photo.");
+
+return;
+
+}
+
+
+/*
+IMPORTANT:
+FileReader converts the selected
+Gallery photo into a local image
+that can be saved in browser storage.
+*/
 
 const reader =
 new FileReader();
@@ -1478,11 +1493,21 @@ document.getElementById(
 "imagePreview"
 );
 
+
 preview.src =
 selectedImage;
 
-preview.style.display =
-"block";
+
+preview.style.display="block";
+
+};
+
+
+reader.onerror=function(){
+
+alert(
+"Could not read this photo."
+);
 
 };
 
@@ -1598,23 +1623,20 @@ selectedImage;
 }
 
 
-product.sizes =
+product.sizes=
 sizes.length ?
 sizes :
 ["Free Size"];
 
 
-product.colors =
+product.colors=
 colors.length ?
 colors :
 ["Default"];
 
 
-product.description =
+product.description=
 description;
-
-
-editingId=null;
 
 
 try{
@@ -1627,13 +1649,15 @@ JSON.stringify(products)
 }catch(error){
 
 alert(
-"Image too large. Please use a smaller picture."
+"Photo is too large. Please select a smaller photo."
 );
 
 return;
 
 }
 
+
+editingId=null;
 
 clearForm();
 
@@ -1648,12 +1672,12 @@ return;
 }
 
 
-/* NEW */
+/* NEW PRODUCT */
 
 if(!selectedImage){
 
 alert(
-"Please choose product picture."
+"📷 Please select a photo from Gallery first."
 );
 
 return;
@@ -1703,7 +1727,7 @@ JSON.stringify(products)
 products.pop();
 
 alert(
-"Picture too large. Please choose a smaller picture."
+"Photo is too large. Please choose a smaller photo."
 );
 
 return;
@@ -1718,56 +1742,29 @@ renderAdminProducts();
 renderProducts();
 
 alert(
-"Product added successfully!"
+"✅ Product added successfully!"
 );
 
 }
 
 
 /* =========================
-CLEAR
+CLEAR FORM
 ========================= */
 
 function clearForm(){
 
-document
-.getElementById("productName")
-.value="";
+document.getElementById("productName").value="";
+document.getElementById("productPrice").value="";
+document.getElementById("productStock").value="";
+document.getElementById("productImage").value="";
+document.getElementById("productSizes").value="";
+document.getElementById("productColors").value="";
+document.getElementById("productDescription").value="";
 
-document
-.getElementById("productPrice")
-.value="";
+document.getElementById("imagePreview").src="";
 
-document
-.getElementById("productStock")
-.value="";
-
-document
-.getElementById("productImage")
-.value="";
-
-document
-.getElementById("productSizes")
-.value="";
-
-document
-.getElementById("productColors")
-.value="";
-
-document
-.getElementById("productDescription")
-.value="";
-
-
-document
-.getElementById("imagePreview")
-.src="";
-
-
-document
-.getElementById("imagePreview")
-.style.display="none";
-
+document.getElementById("imagePreview").style.display="none";
 
 selectedImage="";
 
@@ -1777,7 +1774,7 @@ editingId=null;
 
 
 /* =========================
-ADMIN PRODUCT LIST
+ADMIN PRODUCTS
 ========================= */
 
 function renderAdminProducts(){
@@ -1808,7 +1805,6 @@ box.innerHTML += `
 
 <img
 src="${p.image}"
-onerror="this.src='https://via.placeholder.com/100?text=Product'"
 >
 
 <strong>${p.name}</strong>
@@ -1872,50 +1868,25 @@ x=>x.id===id
 if(!p)return;
 
 
-document
-.getElementById("productName")
-.value=p.name;
+document.getElementById("productName").value=p.name;
 
+document.getElementById("productPrice").value=p.price;
 
-document
-.getElementById("productPrice")
-.value=p.price;
+document.getElementById("productStock").value=p.stock;
 
+document.getElementById("productSizes").value=p.sizes.join(",");
 
-document
-.getElementById("productStock")
-.value=p.stock;
+document.getElementById("productColors").value=p.colors.join(",");
 
-
-document
-.getElementById("productSizes")
-.value=
-p.sizes.join(",");
-
-
-document
-.getElementById("productColors")
-.value=
-p.colors.join(",");
-
-
-document
-.getElementById("productDescription")
-.value=
-p.description || "";
+document.getElementById("productDescription").value=p.description || "";
 
 
 selectedImage=p.image;
 
 
-document
-.getElementById("imagePreview")
-.src=p.image;
+document.getElementById("imagePreview").src=p.image;
 
-
-document
-.getElementById("imagePreview")
-.style.display="block";
+document.getElementById("imagePreview").style.display="block";
 
 
 editingId=id;
@@ -1980,9 +1951,7 @@ ORDERS
 function renderOrders(){
 
 const box =
-document.getElementById(
-"orders"
-);
+document.getElementById("orders");
 
 
 const orders =
@@ -2074,8 +2043,6 @@ ${order.address}
 
 <hr>
 
-<strong>Products:</strong>
-
 ${items}
 
 <hr>
@@ -2084,10 +2051,6 @@ ${items}
 Total:
 ৳${Number(order.total).toLocaleString()}
 </h3>
-
-<label>
-Order Status
-</label>
 
 <select
 class="status"
