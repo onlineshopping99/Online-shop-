@@ -36,8 +36,17 @@ main{max-width:1200px;margin:auto;padding:18px 14px 45px}.page{display:none}.pag
 .adminprod{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}.adminprod img{width:65px;height:65px;object-fit:cover;border-radius:8px}.small{display:flex;gap:5px;flex-wrap:wrap}
 .login{max-width:430px;margin:35px auto}.login input{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;margin:6px 0 12px}.passrow{display:flex;gap:6px}.passrow input{margin:0}.preview{max-width:160px;max-height:160px;display:none;margin-top:8px;border-radius:10px}
 .notice{background:#fff8df;padding:10px;border-radius:8px;color:#765800;font-size:13px}
+
+.review-btn{background:#f3f4f6;color:#111;width:100%;padding:9px;border-radius:9px;font-weight:700;margin-top:7px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:100;align-items:center;justify-content:center;padding:15px}
+.modal.show{display:flex}.modalbox{background:#fff;width:min(600px,100%);max-height:90vh;overflow:auto;border-radius:16px;padding:18px;position:relative}
+.close{position:absolute;right:12px;top:10px;background:#eee;width:35px;height:35px;border-radius:50%;font-size:20px}
+.review-form input,.review-form textarea,.review-form select{width:100%;padding:11px;border:1px solid #ddd;border-radius:9px;margin:5px 0 9px}
+.review-card{border:1px solid #e5e7eb;border-radius:10px;padding:11px;margin-top:9px}
+.review-card .stars{color:#f59e0b}.review-date{font-size:12px;color:#777}
+
 footer{text-align:center;color:#777;padding:25px}
-@media(max-width:650px){.logo{width:100%}.nav{width:100%}.nav button{flex:1}.products{grid-template-columns:repeat(2,1fr);gap:9px}.card img{height:165px}.cardbody{padding:9px}.card h3{font-size:15px}.price{font-size:17px}.actions{grid-template-columns:1fr}.formgrid,.stats{grid-template-columns:1fr}.full{grid-column:auto}}
+@media(max-width:650px){.logo{width:100%}.nav{width:100%}.nav button{flex:1}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card img{height:150px}.cardbody{padding:9px}.card h3{font-size:15px}.price{font-size:17px}.actions{grid-template-columns:1fr}.formgrid,.stats{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -72,6 +81,18 @@ footer{text-align:center;color:#777;padding:25px}
 <label>Name</label><input id="cName" placeholder="Your name">
 <label>Phone</label><input id="cPhone" placeholder="01XXXXXXXXX">
 <label>Address</label><textarea id="cAddress" placeholder="Full delivery address"></textarea>
+
+<div id="frameOptions" style="display:none">
+ <h3>🖼️ Glass Photo Frame Options</h3>
+ <label>Choose Frame Size</label>
+ <select id="frameSize"><option>6x8</option><option>8x10</option><option>10x12</option></select>
+ <label>Choose Frame Design</label>
+ <select id="frameDesign"><option>Black</option><option>White</option><option>Wood</option></select>
+ <label>Upload Your Photo</label>
+ <input id="framePhoto" type="file" accept="image/*" onchange="previewFramePhoto(event)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:9px">
+ <img id="framePreview" class="preview">
+</div>
+
 <label>Delivery Area</label><select id="cArea"><option>🏠 Inside Dhaka - ৳150</option><option>🚚 Outside Dhaka - ৳150</option></select>
 <button class="btn btn-green" style="width:100%;margin-top:12px" onclick="placeOrder()">✅ Place Order</button>
 </div></div></section>
@@ -111,7 +132,15 @@ footer{text-align:center;color:#777;padding:25px}
 
 <div class="panel"><h3>📋 Product List</h3><div id="adminProducts"></div></div>
 <div class="panel"><h3>📦 Customer Orders</h3><div id="adminOrders"></div></div>
+<div class="panel"><h3>💬 Customer Reviews & Comments</h3><div id="adminReviews"></div></div>
 </div></section>
+
+<div id="reviewModal" class="modal">
+  <div class="modalbox">
+    <button class="close" onclick="closeReviews()">×</button>
+    <div id="reviewContent"></div>
+  </div>
+</div>
 </main><footer>© 2026 Said Online Shop</footer>
 
 <script>
@@ -124,13 +153,35 @@ const defaults=[
 {id:5,name:"Sunglasses",price:800,discount:8,stock:25,category:"Fashion",rating:4.3,image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=700",sizes:"",colors:"Black,Brown",desc:"Stylish sunglasses."},
 {id:6,name:"Premium T-Shirt",price:650,discount:0,stock:30,category:"T-Shirt",rating:4.8,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=700",sizes:"S,M,L,XL",colors:"Black,White,Blue",desc:"Premium cotton T-shirt."}
 ];
+if(!defaults.some(p=>p.name==="Glass Photo Frame")){
+defaults.push({
+ id:7,name:"Glass Photo Frame",price:900,discount:0,stock:20,category:"Photo Frame",
+ rating:5,image:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=700",
+ sizes:"6x8,8x10,10x12",colors:"Black,White,Wood",
+ desc:"Custom glass photo frame. Customer can upload a photo and choose frame size/design.",
+ frame:true
+});
+}
 let products=JSON.parse(localStorage.getItem("products")||"null")||defaults;
+products=products.map(p=>({
+...p,
+stock:Number.isFinite(Number(p.stock))?Number(p.stock):0,
+rating:Number.isFinite(Number(p.rating))?Number(p.rating):5,
+discount:Number(p.discount)||0,
+category:p.category||"Other",
+sizes:p.sizes||"",
+colors:p.colors||"",
+desc:p.desc||"",
+image:p.image||"https://via.placeholder.com/600x500?text=No+Image"
+}));
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let wishlist=JSON.parse(localStorage.getItem("wishlist")||"[]");
 let orders=JSON.parse(localStorage.getItem("orders")||"[]");
 let admin=localStorage.getItem("adminLoggedIn")==="1",tempImage="";
+let reviews=JSON.parse(localStorage.getItem("reviews")||"[]");
+let framePhotoData="";
 
-function persist(){localStorage.setItem("products",JSON.stringify(products));localStorage.setItem("cart",JSON.stringify(cart));localStorage.setItem("wishlist",JSON.stringify(wishlist));localStorage.setItem("orders",JSON.stringify(orders));counts()}
+function persist(){localStorage.setItem("products",JSON.stringify(products));localStorage.setItem("cart",JSON.stringify(cart));localStorage.setItem("wishlist",JSON.stringify(wishlist));localStorage.setItem("orders",JSON.stringify(orders));localStorage.setItem("reviews",JSON.stringify(reviews));counts()}
 function counts(){cartCount.textContent=cart.reduce((a,x)=>a+x.qty,0);wishCount.textContent=wishlist.length}
 function money(n){return"৳"+Number(n).toLocaleString("en-BD")}
 function price(p){return Math.round(p.price*(1-(Number(p.discount||0)/100)))}
@@ -139,7 +190,7 @@ function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 function showPage(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");if(id==="shop")renderProducts();if(id==="wishlist")renderWishlist();if(id==="cart")renderCart();if(id==="admin")renderAdmin();scrollTo(0,0)}
 function card(p){
 let liked=wishlist.includes(p.id),final=price(p);
-return `<div class="card"><img src="${esc(p.image)}" onerror="this.src='https://via.placeholder.com/600x500?text=No+Image'"><button class="heart" onclick="toggleWish(${p.id})">${liked?"❤️":"♡"}</button><div class="cardbody"><h3>${esc(p.name)}</h3><div class="rating">${stars(p.rating)} <span class="muted">${Number(p.rating||0).toFixed(1)}</span></div>${p.discount?`<span class="discount">${p.discount}% OFF</span>`:""}<div><span class="price">${money(final)}</span>${p.discount?`<span class="old">${money(p.price)}</span>`:""}</div><div class="muted">Stock: ${p.stock}</div><div class="actions"><button class="add" ${p.stock<1?"disabled":""} onclick="addCart(${p.id})">🛒 Add to Cart</button><button class="order" ${p.stock<1?"disabled":""} onclick="orderNow(${p.id})">⚡ Order Now</button></div><button class="buy" style="width:100%;margin-top:7px" ${p.stock<1?"disabled":""} onclick="buyNow(${p.id})">💳 Buy Now</button></div></div>`
+return `<div class="card"><img src="${esc(p.image)}" onerror="this.src='https://via.placeholder.com/600x500?text=No+Image'"><button class="heart" onclick="toggleWish(${p.id})">${liked?"❤️":"♡"}</button><div class="cardbody"><h3>${esc(p.name)}</h3><div class="rating">${stars(p.rating)} <span class="muted">${Number(p.rating||0).toFixed(1)}</span></div>${p.discount?`<span class="discount">${p.discount}% OFF</span>`:""}<div><span class="price">${money(final)}</span>${p.discount?`<span class="old">${money(p.price)}</span>`:""}</div><div class="muted">Stock: ${p.stock}</div><div class="actions"><button class="add" ${p.stock<1?"disabled":""} onclick="addCart(${p.id})">🛒 Add to Cart</button><button class="order" ${p.stock<1?"disabled":""} onclick="orderNow(${p.id})">⚡ Order Now</button></div><button class="buy" style="width:100%;margin-top:7px" ${p.stock<1?"disabled":""} onclick="buyNow(${p.id})">💳 Buy Now</button><button class="review-btn" onclick="openReviews(${p.id})">💬 Reviews & Comments</button>${p.frame?`<button class="review-btn" onclick="orderNow(${p.id})">🖼️ Customize Frame</button>`:""}</div></div>`
 }
 function renderProducts(){
 let q=(search.value||"").toLowerCase(),cat=category.value,sort=sortEl=window.sort?.value||document.getElementById("sort").value;
@@ -156,24 +207,45 @@ function buyNow(id){orderNow(id)}
 function removeCart(id){cart=cart.filter(x=>x.id!==id);persist();renderCart()}
 function qty(id,n){let x=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);if(!x)return;x.qty=Math.max(1,Math.min(p.stock,x.qty+n));persist();renderCart()}
 function renderCart(){
+let hasFrame=cart.some(x=>{let p=products.find(p=>p.id===x.id);return p&&p.frame});
+let fo=document.getElementById("frameOptions");if(fo)fo.style.display=hasFrame?"block":"none";
 if(!cart.length){cartItems.innerHTML='<div class="empty">Your cart is empty.</div>';cartSummary.innerHTML="";return}
 let subtotal=0;cartItems.innerHTML=cart.map(x=>{let p=products.find(p=>p.id===x.id);if(!p)return"";let t=price(p)*x.qty;subtotal+=t;return`<div class="cartitem"><img src="${esc(p.image)}"><div class="grow"><b>${esc(p.name)}</b><br>${money(price(p))} × ${x.qty}<div class="qty"><button onclick="qty(${p.id},-1)">−</button>${x.qty}<button onclick="qty(${p.id},1)">+</button></div></div><b>${money(t)}</b><button class="btn btn-red" onclick="removeCart(${p.id})">×</button></div>`}).join("");
 cartSummary=`<div class="summary"><div>Products: <b>${money(subtotal)}</b></div><div>Delivery: <b>${money(DELIVERY)}</b> (Inside & Outside Dhaka)</div><div class="total">Total: ${money(subtotal+DELIVERY)}</div></div>`;
 }
+
+function previewFramePhoto(e){
+ let f=e.target.files[0]; if(!f)return;
+ let r=new FileReader();
+ r.onload=()=>{framePhotoData=r.result;framePreview.src=framePhotoData;framePreview.style.display="block"};
+ r.readAsDataURL(f);
+}
+function getFrameData(){
+ let p=products.find(p=>cart.length&&p.id===cart[0].id);
+ if(!p||!p.frame)return null;
+ return {
+   size:(document.getElementById("frameSize")||{}).value||"6x8",
+   design:(document.getElementById("frameDesign")||{}).value||"Black",
+   photo:framePhotoData||""
+ };
+}
+
 function placeOrder(){
 if(!cart.length)return alert("Cart is empty.");
 let name=cName.value.trim(),phone=cPhone.value.trim(),address=cAddress.value.trim();if(!name||!phone||!address)return alert("Please fill Name, Phone and Address.");
 let items=cart.map(x=>{let p=products.find(p=>p.id===x.id);if(!p||p.stock<x.qty)return null;return{id:p.id,name:p.name,qty:x.qty,price:price(p),image:p.image}});if(items.some(x=>!x))return alert("Some product is out of stock.");
+let frameData=getFrameData();
+if(frameData && !frameData.photo)return alert("Glass Photo Frame-এর জন্য আপনার ছবি Gallery থেকে select করুন.");
 let subtotal=items.reduce((s,x)=>s+x.price*x.qty,0),id="SO"+Date.now().toString().slice(-8);
-orders.unshift({id,date:new Date().toLocaleString(),name,phone,address,area:cArea.value,productTotal:subtotal,delivery:DELIVERY,total:subtotal+DELIVERY,status:"Pending",items});
-items.forEach(x=>{let p=products.find(p=>p.id===x.id);p.stock-=x.qty});cart=[];persist();cName.value=cPhone.value=cAddress.value="";alert("Order placed successfully!\\nOrder ID: "+id+"\\nTotal: "+money(subtotal+DELIVERY));trackId.value=id;showPage("tracking");trackOrder()
+orders.unshift({id,date:new Date().toLocaleString(),name,phone,address,area:cArea.value,productTotal:subtotal,delivery:DELIVERY,total:subtotal+DELIVERY,status:"Pending",items,frame:frameData});
+items.forEach(x=>{let p=products.find(p=>p.id===x.id);p.stock-=x.qty});cart=[];framePhotoData="";if(document.getElementById("framePhoto"))document.getElementById("framePhoto").value="";if(document.getElementById("framePreview"))document.getElementById("framePreview").style.display="none";persist();cName.value=cPhone.value=cAddress.value="";alert("Order placed successfully!\\nOrder ID: "+id+"\\nTotal: "+money(subtotal+DELIVERY));trackId.value=id;showPage("tracking");trackOrder()
 }
-function trackOrder(){let id=trackId.value.trim(),o=orders.find(x=>x.id.toLowerCase()===id.toLowerCase());trackResult.innerHTML=o?`<div class="orderbox"><h3>Order ${esc(o.id)}</h3><p>Status: <span class="status">${esc(o.status)}</span></p><p>Name: ${esc(o.name)}<br>Phone: ${esc(o.phone)}<br>Address: ${esc(o.address)}</p><p>Total: <b>${money(o.total)}</b></p></div>`:'<div class="empty">Order not found.</div>'}
+function trackOrder(){let id=trackId.value.trim(),o=orders.find(x=>x.id.toLowerCase()===id.toLowerCase());trackResult.innerHTML=o?`<div class="orderbox"><h3>Order ${esc(o.id)}</h3><p>Status: <span class="status">${esc(o.status)}</span></p><p>Name: ${esc(o.name)}<br>Phone: ${esc(o.phone)}<br>Address: ${esc(o.address)}</p><p>${o.frame?`🖼️ Frame: ${esc(o.frame.size)} • ${esc(o.frame.design)} • Custom photo attached`:""} </p><p>Total: <b>${money(o.total)}</b></p></div>`:'<div class="empty">Order not found.</div>'}
 function openAdmin(){showPage("admin");renderAdmin()}
 function togglePass(){adminPass.type=adminPass.type==="password"?"text":"password"}
 function loginAdmin(){if(adminUser.value===ADMIN_USER&&adminPass.value===ADMIN_PASS){admin=true;localStorage.setItem("adminLoggedIn","1");renderAdmin()}else alert("Wrong username or password.")}
 function logoutAdmin(){admin=false;localStorage.removeItem("adminLoggedIn");renderAdmin()}
-function renderAdmin(){loginBox.style.display=admin?"none":"block";adminPanel.style.display=admin?"block":"none";if(admin){renderAdminProducts();renderOrders();stats()}}
+function renderAdmin(){loginBox.style.display=admin?"none":"block";adminPanel.style.display=admin?"block":"none";if(admin){renderAdminProducts();renderOrders();renderAdminReviews();stats()}}
 function previewImage(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{tempImage=r.result;preview.src=tempImage;preview.style.display="block"};r.readAsDataURL(f)}
 function clearForm(){["editId","pName","pPrice","pDiscount","pStock","pCategory","pRating","pSizes","pColors","pDesc","pUrl"].forEach(id=>document.getElementById(id).value="");pFile.value="";tempImage="";preview.style.display="none"}
 function saveProduct(){
@@ -183,9 +255,65 @@ if(id){let i=products.findIndex(x=>x.id===id);products[i]=obj}else products.unsh
 function editProduct(id){let p=products.find(x=>x.id===id);if(!p)return;editId.value=p.id;pName.value=p.name;pPrice.value=p.price;pDiscount.value=p.discount;pStock.value=p.stock;pCategory.value=p.category;pRating.value=p.rating;pSizes.value=p.sizes||"";pColors.value=p.colors||"";pDesc.value=p.desc||"";pUrl.value=p.image.startsWith("data:")?"":p.image;tempImage=p.image.startsWith("data:")?p.image:"";if(tempImage){preview.src=tempImage;preview.style.display="block"}scrollTo(0,0)}
 function deleteProduct(id){if(confirm("Delete this product?")){products=products.filter(p=>p.id!==id);cart=cart.filter(x=>x.id!==id);wishlist=wishlist.filter(x=>x!==id);persist();renderProducts();renderAdminProducts();stats()}}
 function renderAdminProducts(){adminProducts.innerHTML=products.map(p=>`<div class="adminprod"><img src="${esc(p.image)}"><div class="grow"><b>${esc(p.name)}</b><br>${money(price(p))} • Stock ${p.stock}<br><span class="muted">${esc(p.category)}</span></div><div class="small"><button class="btn btn-blue" onclick="editProduct(${p.id})">Edit</button><button class="btn btn-red" onclick="deleteProduct(${p.id})">Delete</button></div></div>`).join("")}
-function renderOrders(){if(!orders.length){adminOrders.innerHTML='<div class="empty">No orders yet.</div>';return}adminOrders.innerHTML=orders.map(o=>`<div class="orderbox"><b>${esc(o.id)}</b> — ${esc(o.date)}<p>${esc(o.name)} | ${esc(o.phone)}<br>${esc(o.address)}<br>${o.area}</p><p>Items: ${o.items.map(x=>esc(x.name)+" × "+x.qty).join(", ")}</p><b>Total: ${money(o.total)}</b><br><select onchange="changeStatus('${o.id}',this.value)" style="padding:8px;margin-top:7px"><option ${o.status==="Pending"?"selected":""}>Pending</option><option ${o.status==="Confirmed"?"selected":""}>Confirmed</option><option ${o.status==="Shipped"?"selected":""}>Shipped</option><option ${o.status==="Delivered"?"selected":""}>Delivered</option><option ${o.status==="Cancelled"?"selected":""}>Cancelled</option></select> <button class="btn btn-red" onclick="deleteOrder('${o.id}')">Delete</button></div>`).join("")}
+function renderOrders(){if(!orders.length){adminOrders.innerHTML='<div class="empty">No orders yet.</div>';return}adminOrders.innerHTML=orders.map(o=>`<div class="orderbox"><b>${esc(o.id)}</b> — ${esc(o.date)}<p>${esc(o.name)} | ${esc(o.phone)}<br>${esc(o.address)}<br>${o.area}</p><p>Items: ${o.items.map(x=>esc(x.name)+" × "+x.qty).join(", ")}</p><b>Total: ${money(o.total)}</b>${o.frame?`<p>🖼️ Frame: ${esc(o.frame.size)} • ${esc(o.frame.design)} • Customer photo attached</p>`:""}<br><select onchange="changeStatus('${o.id}',this.value)" style="padding:8px;margin-top:7px"><option ${o.status==="Pending"?"selected":""}>Pending</option><option ${o.status==="Confirmed"?"selected":""}>Confirmed</option><option ${o.status==="Shipped"?"selected":""}>Shipped</option><option ${o.status==="Delivered"?"selected":""}>Delivered</option><option ${o.status==="Cancelled"?"selected":""}>Cancelled</option></select> <button class="btn btn-red" onclick="deleteOrder('${o.id}')">Delete</button></div>`).join("")}
 function changeStatus(id,s){let o=orders.find(x=>x.id===id);if(o){o.status=s;persist();renderOrders()}}
 function deleteOrder(id){if(confirm("Delete order?")){orders=orders.filter(x=>x.id!==id);persist();renderOrders();stats()}}
+
+function openReviews(id){
+  let p=products.find(x=>x.id===id);
+  if(!p)return;
+  reviewModal.classList.add("show");
+  reviewContent.innerHTML=reviewHTML(p);
+}
+function closeReviews(){reviewModal.classList.remove("show")}
+function reviewHTML(p){
+  let list=reviews.filter(r=>Number(r.productId)===Number(p.id));
+  let avg=list.length?(list.reduce((a,r)=>a+Number(r.rating),0)/list.length):Number(p.rating||5);
+  return `<h2>💬 ${esc(p.name)} Reviews</h2>
+  <p><span class="rating">${stars(avg)}</span> <b>${avg.toFixed(1)}/5</b> • ${list.length} review(s)</p>
+  <div class="review-form">
+    <h3>✍️ Write a Review</h3>
+    <input id="reviewName" placeholder="Your name">
+    <select id="reviewRating"><option value="5">⭐⭐⭐⭐⭐ 5</option><option value="4">⭐⭐⭐⭐ 4</option><option value="3">⭐⭐⭐ 3</option><option value="2">⭐⭐ 2</option><option value="1">⭐ 1</option></select>
+    <textarea id="reviewText" placeholder="Write your comment..." rows="4"></textarea>
+    <button class="btn btn-green" onclick="submitReview(${p.id})">📤 Submit Review</button>
+  </div>
+  <hr>
+  <h3>Customer Comments</h3>
+  ${list.length?list.slice().reverse().map(r=>`<div class="review-card"><b>👤 ${esc(r.name)}</b> <span class="stars">${"★".repeat(Number(r.rating))}${"☆".repeat(5-Number(r.rating))}</span><div>${esc(r.text)}</div><div class="review-date">${esc(r.date)}</div></div>`).join(""):'<div class="empty">No comments yet. Be the first to review!</div>'}`;
+}
+function submitReview(id){
+  let name=reviewName.value.trim(),text=reviewText.value.trim(),rating=Number(reviewRating.value);
+  if(!name||!text)return alert("Please enter your name and comment.");
+  reviews.push({id:Date.now(),productId:id,name,text,rating,date:new Date().toLocaleString()});
+  persist();
+  let p=products.find(x=>x.id===id);
+  if(p){
+    let list=reviews.filter(r=>Number(r.productId)===Number(id));
+    p.rating=Number((list.reduce((a,r)=>a+Number(r.rating),0)/list.length).toFixed(1));
+    persist();
+  }
+  renderProducts();
+  renderAdminProducts();
+  reviewContent.innerHTML=reviewHTML(p);
+  alert("Review added successfully.");
+}
+function deleteReview(id){
+  if(confirm("Delete this review?")){
+    reviews=reviews.filter(r=>r.id!==id);
+    persist();renderOrders();renderAdminProducts();renderAdminReviews();
+  }
+}
+function renderAdminReviews(){
+  let el=document.getElementById("adminReviews");
+  if(!el)return;
+  if(!reviews.length){el.innerHTML='<div class="empty">No reviews yet.</div>';return}
+  el.innerHTML=reviews.slice().reverse().map(r=>{
+    let p=products.find(x=>Number(x.id)===Number(r.productId));
+    return `<div class="review-card"><b>${esc(p?p.name:"Deleted Product")}</b><br>👤 ${esc(r.name)} <span class="stars">${"★".repeat(Number(r.rating))}${"☆".repeat(5-Number(r.rating))}</span><p>${esc(r.text)}</p><small>${esc(r.date)}</small><br><button class="btn btn-red" style="margin-top:6px" onclick="deleteReview(${r.id})">Delete Review</button></div>`;
+  }).join("");
+}
+
 function stats(){sProducts.textContent=products.length;sOrders.textContent=orders.length;sSales.textContent=money(orders.reduce((s,o)=>s+(o.status!=="Cancelled"?o.total:0),0))}
 counts();renderProducts();if(admin)renderAdmin();
 </script>
