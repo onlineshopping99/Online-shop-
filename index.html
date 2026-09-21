@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Said Online Shop</title>
+<title>Our Online Shop</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f2f4f7;color:#222}
 button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
@@ -53,18 +53,18 @@ footer{text-align:center;color:#777;padding:25px}
 </head>
 <body>
 <header><div class="head">
-<div class="logo">🛍️ Said Online Shop</div>
+<div class="logo">🛍️ Our Online Shop</div>
 <div class="nav">
 <button onclick="showPage('shop')">🏠 Shop</button>
 <button onclick="showPage('wishlist')">❤️ Wishlist <span id="wishCount" class="badge">0</span></button>
 <button onclick="showPage('cart')">🛒 Cart <span id="cartCount" class="badge">0</span></button>
 <button onclick="showPage('tracking')">📦 Track</button>
-<button onclick="openAdmin()">⚙️ Admin</button>
+<button onclick="openAdmin()">⚙️ Admin</button><button onclick="openSettings()">⚙️ Settings</button>
 </div></div></header>
 
 <main>
 <section id="shop" class="page active">
-<div class="hero"><h1>Welcome to Said Online Shop</h1><p>Quality Products • Easy Order • Home Delivery</p></div>
+<div class="hero"><h1>Welcome to Our Online Shop</h1><p>Quality Products • Easy Order • Home Delivery</p></div>
 <div class="search">
 <input id="search" oninput="renderProducts()" placeholder="🔍 Search products...">
 <div class="filters">
@@ -104,13 +104,30 @@ footer{text-align:center;color:#777;padding:25px}
 <button class="btn btn-blue" style="margin-top:8px" onclick="trackOrder()">Track</button>
 <div id="trackResult" style="margin-top:14px"></div></div></section>
 
+<section id="settings" class="page">
+<div class="panel"><h2>⚙️ Settings</h2><p class="muted">Admin password দিয়ে Settings খুলতে হবে।</p></div>
+<div id="settingsLogin" class="login"><div class="panel"><h3>🔐 Settings Login</h3><input id="settingsUser" placeholder="Username"><input id="settingsPass" type="password" placeholder="Password"><button class="btn btn-dark" style="width:100%" onclick="loginSettings()">LOGIN</button></div></div>
+<div id="settingsPanel" class="panel" style="display:none">
+<h3>🏪 Shop Settings</h3>
+<div class="formgrid">
+<label>Shop Name<input id="setShopName" value="Our Online Shop"></label>
+<label>Currency<input id="setCurrency" value="৳"></label>
+<label>Inside Dhaka Delivery<input id="setInside" type="number" value="150"></label>
+<label>Outside Dhaka Delivery<input id="setOutside" type="number" value="150"></label>
+<label>Theme<select id="setTheme"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+<label>Notifications<select id="setNotify"><option value="on">On</option><option value="off">Off</option></select></label>
+</div>
+<button class="btn btn-green" style="margin-top:12px" onclick="saveSettings()">💾 Save Settings</button>
+<button class="btn btn-gray" style="margin-top:12px" onclick="logoutSettings()">🔒 Lock Settings</button>
+</div></section>
+
 <section id="admin" class="page">
 <div id="loginBox" class="login"><div class="panel"><h2>🔐 Admin Login</h2>
-<div class="notice">Admin username: <b>MDsaudulislam</b></div>
-<label>Username</label><input id="adminUser" placeholder="MDsaudulislam">
+<div class="notice">Admin login required</div>
+<label>Username</label><input id="adminUser" placeholder="saidulislam">
 <label>Password</label><div class="passrow"><input id="adminPass" type="password" placeholder="Password"><button class="btn btn-gray" onclick="togglePass()">👁️</button></div>
 <button class="btn btn-dark" style="width:100%" onclick="loginAdmin()">LOGIN</button>
-<p class="muted">Password: saidul@#12</p></div></div>
+</div></div>
 
 <div id="adminPanel" style="display:none">
 <div class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><h2>⚙️ Admin Dashboard</h2><button class="btn btn-red" onclick="logoutAdmin()">Logout</button></div></div>
@@ -150,10 +167,10 @@ footer{text-align:center;color:#777;padding:25px}
     <div id="productContent"></div>
   </div>
 </div>
-</main><footer>© 2026 Said Online Shop</footer>
+</main><footer>© 2026 Our Online Shop</footer>
 
 <script>
-const DELIVERY=150,ADMIN_USER="MDsaudulislam",ADMIN_PASS="saidul@#12";
+const DELIVERY=150,ADMIN_USER="saidulislam",ADMIN_PASS="saidul@#12";
 const defaults=[
 {id:1,name:"Smart Watch",price:1500,discount:0,stock:20,category:"Gadget",rating:4.5,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700",sizes:"",colors:"Black",desc:"Smart watch for everyday use."},
 {id:2,name:"Wireless Headphone",price:1200,discount:5,stock:15,category:"Gadget",rating:4.4,image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700",sizes:"",colors:"Black,White",desc:"Comfortable wireless headphone."},
@@ -225,7 +242,7 @@ let hasFrame=cart.some(x=>{let p=products.find(p=>p.id===x.id);return p&&p.frame
 let fo=document.getElementById("frameOptions");if(fo)fo.style.display=hasFrame?"block":"none";
 if(!cart.length){cartItems.innerHTML='<div class="empty">Your cart is empty.</div>';cartSummary.innerHTML="";return}
 let subtotal=0;cartItems.innerHTML=cart.map(x=>{let p=products.find(p=>p.id===x.id);if(!p)return"";let t=price(p)*x.qty;subtotal+=t;let opts=[x.size?`Size: ${esc(x.size)}`:"",x.color?`Color: ${esc(x.color)}`:""].filter(Boolean).join(" • ");return`<div class="cartitem"><img src="${esc(p.image)}"><div class="grow"><b>${esc(p.name)}</b><br>${money(price(p))} × ${x.qty}${opts?`<div class="muted">${opts}</div>`:""}<div class="qty"><button onclick='qty(${p.id},-1,${JSON.stringify(x.size||"")},${JSON.stringify(x.color||"")})'>−</button>${x.qty}<button onclick='qty(${p.id},1,${JSON.stringify(x.size||"")},${JSON.stringify(x.color||"")})'>+</button></div></div><b>${money(t)}</b><button class="btn btn-red" onclick='removeCart(${p.id},${JSON.stringify(x.size||"")},${JSON.stringify(x.color||"")})'>×</button></div>`}).join("");
-cartSummary=`<div class="summary"><div>Products: <b>${money(subtotal)}</b></div><div>Delivery: <b>${money(DELIVERY)}</b> (Inside & Outside Dhaka)</div><div class="total">Total: ${money(subtotal+DELIVERY)}</div></div>`;
+cartSummary=`<div class="summary"><div>Products: <b>${money(subtotal)}</b></div><div>Delivery: <b>${money(deliveryCharge(cArea.value))}</b></div><div class="total">Total: ${money(subtotal+deliveryCharge(cArea.value))}</div></div>`;
 }
 
 function previewFramePhoto(e){
@@ -251,11 +268,19 @@ let name=cName.value.trim(),phone=cPhone.value.trim(),address=cAddress.value.tri
 let items=cart.map(x=>{let p=products.find(p=>p.id===x.id);if(!p||p.stock<x.qty)return null;return{id:p.id,name:p.name,qty:x.qty,price:price(p),image:p.image,size:x.size||"",color:x.color||""}});if(items.some(x=>!x))return alert("Some product is out of stock.");
 let frameData=getFrameData();
 if(frameData && !frameData.photo)return alert("Glass Photo Frame-এর জন্য আপনার ছবি Gallery থেকে select করুন.");
-let subtotal=items.reduce((s,x)=>s+x.price*x.qty,0),id="SO"+Date.now().toString().slice(-8);
-orders.unshift({id,date:new Date().toLocaleString(),name,phone,address,area:cArea.value,productTotal:subtotal,delivery:DELIVERY,total:subtotal+DELIVERY,status:"Pending",items,frame:frameData});
+let subtotal=items.reduce((s,x)=>s+x.price*x.qty,0),delivery=deliveryCharge(cArea.value),id="SO"+Date.now().toString().slice(-8);
+orders.unshift({id,date:new Date().toLocaleString(),name,phone,address,area:cArea.value,productTotal:subtotal,delivery,total:subtotal+delivery,status:"Pending",items,frame:frameData});
 items.forEach(x=>{let p=products.find(p=>p.id===x.id);p.stock-=x.qty});cart=[];framePhotoData="";if(document.getElementById("framePhoto"))document.getElementById("framePhoto").value="";if(document.getElementById("framePreview"))document.getElementById("framePreview").style.display="none";persist();cName.value=cPhone.value=cAddress.value="";alert("Order placed successfully!\\nOrder ID: "+id+"\\nTotal: "+money(subtotal+DELIVERY));trackId.value=id;showPage("tracking");trackOrder()
 }
 function trackOrder(){let id=trackId.value.trim(),o=orders.find(x=>x.id.toLowerCase()===id.toLowerCase());trackResult.innerHTML=o?`<div class="orderbox"><h3>Order ${esc(o.id)}</h3><p>Status: <span class="status">${esc(o.status)}</span></p><p>Name: ${esc(o.name)}<br>Phone: ${esc(o.phone)}<br>Address: ${esc(o.address)}</p><p>${o.frame?`🖼️ Frame: ${esc(o.frame.size)} • ${esc(o.frame.design)} • Custom photo attached`:""} </p><p>Total: <b>${money(o.total)}</b></p></div>`:'<div class="empty">Order not found.</div>'}
+function openSettings(){showPage("settings");renderSettings()}
+function renderSettings(){let logged=localStorage.getItem("settingsLoggedIn")==="1";settingsLogin.style.display=logged?"none":"block";settingsPanel.style.display=logged?"block":"none";if(logged)loadSettings()}
+function loginSettings(){if(settingsUser.value===ADMIN_USER&&settingsPass.value===ADMIN_PASS){localStorage.setItem("settingsLoggedIn","1");renderSettings()}else alert("Wrong username or password.")}
+function logoutSettings(){localStorage.removeItem("settingsLoggedIn");renderSettings()}
+function loadSettings(){let x=JSON.parse(localStorage.getItem("shopSettings")||"{}");setShopName.value=x.shopName||"Our Online Shop";setCurrency.value=x.currency||"৳";setInside.value=x.inside??150;setOutside.value=x.outside??150;setTheme.value=x.theme||"light";setNotify.value=x.notify||"on"}
+function saveSettings(){let x={shopName:setShopName.value.trim()||"Our Online Shop",currency:setCurrency.value.trim()||"৳",inside:Number(setInside.value)||0,outside:Number(setOutside.value)||0,theme:setTheme.value,notify:setNotify.value};localStorage.setItem("shopSettings",JSON.stringify(x));alert("Settings saved successfully.");applySettings()}
+function applySettings(){let x=JSON.parse(localStorage.getItem("shopSettings")||"{}");document.querySelectorAll(".logo").forEach(e=>e.textContent="🛍️ "+(x.shopName||"Our Online Shop"));document.querySelectorAll("footer").forEach(e=>e.textContent="© 2026 "+(x.shopName||"Our Online Shop"));document.body.style.background=x.theme==="dark"?"#111827":"#f2f4f7";document.body.style.color=x.theme==="dark"?"#f9fafb":"#222"}
+function deliveryCharge(area){let x=JSON.parse(localStorage.getItem("shopSettings")||"{}");return area==="Inside Dhaka"?Number(x.inside??150):Number(x.outside??150)}
 function openAdmin(){showPage("admin");renderAdmin()}
 function togglePass(){adminPass.type=adminPass.type==="password"?"text":"password"}
 function loginAdmin(){if(adminUser.value===ADMIN_USER&&adminPass.value===ADMIN_PASS){admin=true;localStorage.setItem("adminLoggedIn","1");renderAdmin()}else alert("Wrong username or password.")}
@@ -365,7 +390,7 @@ function renderAdminReviews(){
 }
 
 function stats(){sProducts.textContent=products.length;sOrders.textContent=orders.length;sSales.textContent=money(orders.reduce((s,o)=>s+(o.status!=="Cancelled"?o.total:0),0))}
-counts();renderProducts();if(admin)renderAdmin();
+counts();renderProducts();applySettings();if(admin)renderAdmin();
 </script>
 </body>
 </html>
